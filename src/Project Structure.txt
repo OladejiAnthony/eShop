@@ -1,0 +1,12 @@
+#eShop Project Workflow
+Design/Layout for eShop Ecommerce App
+
+-Project Structure
+1. Project Design
+2. Frontend: React % SCSS/module
+3. Backend: Firebase
+4. Tools: Emailjs, Imgbb.com
+5. Payment: Stripe
+6. Hosting: Heroku.com
+7. Others..
+
