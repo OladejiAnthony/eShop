@@ -3,10 +3,19 @@ Design/Layout for eShop Ecommerce App
 
 -Project Structure
 1. Project Design
-2. Frontend: React % SCSS/module
+2. Frontend: React, Redux Toolkit $ React Icons, SCSS/module
 3. Backend: Firebase
-4. Tools: Emailjs, Imgbb.com
+4. Tools: Emailjs, Imgbb.com, Plausible.com
 5. Payment: Stripe
 6. Hosting: Heroku.com
 7. Others..
 
+-Folder Setup
+1. Assets
+2. Components
+3. Pages
+4. Redux
+5. CustomHooks
+6. Firebase
+
+-
