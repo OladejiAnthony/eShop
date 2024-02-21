@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import {Home, Contact, Login, Register, Reset} from "./pages/index"
 //Components
 import {Header, Footer} from "./components/index"
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
   

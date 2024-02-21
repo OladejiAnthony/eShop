@@ -18,4 +18,25 @@ Design/Layout for eShop Ecommerce App
 5. CustomHooks
 6. Firebase
 
--
+-Workflow
+1. Basic Routing & Pages implementation
+2. Navbar implementation
+3. Authentication implemtation and React-Toastify setup
+4. Admin Route
+5. Admin Dashboard implementation
+6. Products implementation & Crud & data Fetching
+7. Search filter and sorting implementation
+8. Product Details implementation - useParams hook
+9. Pagination
+10. Cart implementation
+11. Checkout implementation
+12. Payment Implementation
+13. Order History & details implelmentation
+14. Review Product implementation
+15. Admin dashboard
+16. Contact page
+17. Testing App
+18. Deployment
+
+
+
