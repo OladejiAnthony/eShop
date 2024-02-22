@@ -1,8 +1,16 @@
-import React, { useState } from 'react'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from 'react'
 import styles from "./Header.module.scss"
-import { Link, NavLink } from 'react-router-dom'
-import {FaShoppingCart, FaTimes} from "react-icons/fa"
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import {FaShoppingCart, FaTimes, FaUserCircle} from "react-icons/fa"
 import {HiOutlineMenuAlt3} from "react-icons/hi"
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import {auth} from "../../firebase/config"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux'
+import { SET_ACTIVE_USER, REMOVE_ACTIVE_USER } from '../../redux/slice/authSlice'
+
 
 const logo = (
     <div className={styles.logo}>
@@ -22,13 +30,16 @@ const cart = (
         </Link>
     </span>
 )
-
 const activeLink = ({isActive}) => (
     isActive ? `${styles.active}` : ""
 ) 
 
 const Header = () => {
  const [showMenu, setShowMenu] = useState(false);
+ const [displayName, setdisplayName] = useState(""); //loggedin users name
+ const navigate = useNavigate();
+
+ const dispatch = useDispatch()
 
  const toggleMenu = () => {
     setShowMenu(!showMenu)
@@ -37,7 +48,50 @@ const Header = () => {
  const hideMenu = () => {
     setShowMenu(false)
  }
+
+ const logoutUser = () => {
+    signOut(auth).then(() => {
+        toast.success("Logout Successfully.")
+        navigate("/")
+      }).catch((error) => {
+        toast.error(error.message)
+      });
+ }
  
+ //Monitor currently signedIn User
+ useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          console.log(user)
+          const uid = user.uid;  //logged in user id from firebase  
+          console.log(uid);
+          //console.log(user.displayName)
+          //setdisplayName(user.displayName);
+
+          if(user.displayName == null) {
+                //create displayName from user's local login email
+                const user1 = user.email.substring(0, user.email.indexOf("@")) //extract texts from the 1st letter to the @ symbol.
+                //console.log(user1)
+                const uName = user1.charAt(0).toUpperCase() + user1.slice(1) //convert the first letter Uppercase
+                //console.log(uName)
+                setdisplayName(uName)
+            } else {
+                setdisplayName(user.displayName);
+            }
+
+            //dispatch current user info to authSlice/redux
+            dispatch(SET_ACTIVE_USER({
+                email: user.email,
+                userName: user.displayName ? user.displayName : displayName,
+                userID: user.uid
+            }))
+        } else {
+            // User is signed out
+            setdisplayName("");
+            dispatch(REMOVE_ACTIVE_USER()) //remove current user from authSlice/redux
+        }
+    });
+ },[dispatch, displayName])
 
   return (
     <header>
@@ -70,6 +124,12 @@ const Header = () => {
                 
                 <div className={styles["header-right"]} onClick={hideMenu}> {/*hides menu when i click on any of the list item */}
                     <span className={styles.links}> 
+                        {/* Display Users Name */}
+                        <a href='#home'>
+                            <FaUserCircle size={16}  />
+                            Hi,
+                            {displayName}
+                        </a>
                         <NavLink to='/login' className={activeLink}>
                             Login
                         </NavLink>
@@ -78,6 +138,10 @@ const Header = () => {
                         </NavLink>
                         <NavLink to='/order-history' className={activeLink}>
                             My Orders
+                        </NavLink>
+
+                        <NavLink to='/' onClick={logoutUser}>
+                            Logout
                         </NavLink>
                     </span>
                     {cart}

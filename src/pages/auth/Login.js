@@ -1,30 +1,62 @@
 import React, { useState } from 'react'
 import styles from "./auth.module.scss"
 import loginImg from "../../assets/login.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaGoogle } from 'react-icons/fa'
 import Card from '../../components/card/Card'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../firebase/config"
 import Loader from '../../components/loader/Loader'
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
- const loginUser = (e) => {
-    e.preventDefault()
-    //console.log(email, password)
+    const navigate = useNavigate();
 
- }
+    //Login with Email & Password
+    const loginUser = (e) => {
+        e.preventDefault()
+        //console.log(email, password)
+        setIsLoading(true)
+
+        //Login Already Registred Users
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+            setIsLoading(false);
+            toast.success("Login Successful");
+            navigate("/")
+        })
+        .catch((error) => {
+            toast.error(error.message)
+            setIsLoading(false)
+        });
+    }
+
+    //Login with Google
+    const provider = new GoogleAuthProvider();
+    const signInWithGoogle = (e) => {
+        e.preventDefault()
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            console.log(user)
+            toast.success("Login Successful");
+            navigate("/")
+        }).catch((error) => {
+            toast.error(error.message)
+        });
+    }
 
   return (
     <>
         {isLoading && <Loader />}
-        <ToastContainer />
         <section className={`container ${styles.auth}`}>
             <div className={styles.img}>
                 <img 
@@ -55,7 +87,7 @@ const Login = () => {
                             value={password}
                             onChange={(e)=> setPassword(e.target.value)}
                         />
-                        <button type="text" className='--btn --btn-primary --btn-block'>
+                        <button type="submit" className='--btn --btn-primary --btn-block'>
                             Login
                         </button>
                         <div className={styles.links}>
@@ -64,7 +96,7 @@ const Login = () => {
                         <p>-- or --</p>
                     </form>
                     {/*Google Sign In*/}
-                    <button className='--btn --btn-danger --btn-block'>
+                    <button className='--btn --btn-danger --btn-block' onClick={signInWithGoogle}>
                         <FaGoogle color='#fff'  />
                         Login With Google
                     </button>

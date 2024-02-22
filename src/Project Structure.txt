@@ -21,7 +21,9 @@ Design/Layout for eShop Ecommerce App
 -Workflow
 1. Basic Routing & Pages implementation
 2. Navbar implementation
-3. Authentication implemtation and React-Toastify setup
+3. Firebase Authentication implemtation and React-Toastify setup
+    auth -> register - login - logout - reset
+4. State Management (Redux) implementation
 4. Admin Route
 5. Admin Dashboard implementation
 6. Products implementation & Crud & data Fetching
@@ -39,4 +41,8 @@ Design/Layout for eShop Ecommerce App
 18. Deployment
 
 
+
+--How to get Username from normal signin method
+a. Write logic that extracts texts in the user's login email and convert it to displayName in Header.js     OR
+b. Add username field on your login page and display it
 
