@@ -1,11 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 //Pages
-import {Home, Contact, Login, Register, Reset} from "./pages/index"
+import {Home, Contact, Login, Register, Reset, Admin} from "./pages/index"
 //Components
 import {Header, Footer} from "./components/index"
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminOnlyRoute from './components/adminOnlyRoute/AdminOnlyRoute';
+
 
 const App = () => {
   
@@ -20,6 +22,11 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/reset' element={<Reset />} />
+          {/*Admin Route */}
+          <Route 
+            path='/admin/*' 
+            element={<AdminOnlyRoute> <Admin /> </AdminOnlyRoute>}  
+          />
         </Routes>
         <Footer />
       </BrowserRouter>

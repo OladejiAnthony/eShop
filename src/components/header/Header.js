@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { SET_ACTIVE_USER, REMOVE_ACTIVE_USER } from '../../redux/slice/authSlice'
 import ShowOnLogin, {ShowOnLogout } from '../hiddenLinks/hiddenLink'
-import AdminOnlyRoute from '../adminOnlyRoute/AdminOnlyRoute'
+import AdminOnlyRoute, { AdminOnlyLink } from '../adminOnlyRoute/AdminOnlyRoute'
 
 
 const logo = (
@@ -113,12 +113,13 @@ const Header = () => {
                     </li>
 
                     <li>
-                        <AdminOnlyRoute>
-                            {" "}
-                            <button className='--btn --btn-primary'>
-                                Admin
-                            </button>
-                        </AdminOnlyRoute>
+                        <AdminOnlyLink>
+                            <Link to="/admin/home">
+                                <button className='--btn --btn-primary'>
+                                    Admin
+                                </button>
+                            </Link>
+                        </AdminOnlyLink>
                     </li>
 
                     <li>
