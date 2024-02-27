@@ -10,6 +10,11 @@ Design/Layout for eShop Ecommerce App
 6. Hosting: Heroku.com
 7. Others..
 
+    Note -
+    a. Firestore Database - we store our data's
+    b. Firebase Storage - a server where we store our documents i.e images, doc's etc
+
+
 -Folder Setup
 1. Assets
 2. Components
