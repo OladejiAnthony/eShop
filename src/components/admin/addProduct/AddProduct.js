@@ -26,7 +26,6 @@ const initialState = {
 
 const AddProduct = () => {
   const [product, setProduct] = useState({...initialState});
-
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
