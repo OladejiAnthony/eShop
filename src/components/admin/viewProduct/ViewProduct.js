@@ -8,10 +8,14 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Loader from "../../loader/Loader";
 import { doc, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
+import Notiflix from "notiflix";
+import { useDispatch } from "react-redux";
+import { STORE_PRODUCTS } from "../../../redux/slice/productSlice";
 
 const ViewProduct = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const getProducts = () => {
     setIsLoading(true);
@@ -30,9 +34,13 @@ const ViewProduct = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(allProducts);
+        //console.log(allProducts);
         setProducts(allProducts);
         setIsLoading(false);
+        //dispatch your products to redux store
+        dispatch(STORE_PRODUCTS({
+          products: allProducts,
+        }));
       });
     } catch (error) {
       setIsLoading(false);
@@ -44,6 +52,30 @@ const ViewProduct = () => {
     getProducts();
   }, []);
 
+  //delete Dialog Box
+  const confirmDelete = (id, imageURL) => {
+    Notiflix.Confirm.show(
+      "Delete Product!!!",
+      "You are about to delete this product",
+      "Delete",
+      "Cancel",
+      function okCb() {
+        deleteProduct(id, imageURL);
+      },
+      function cancelCb() {
+        console.log("Delete Canceled");
+      },
+      {
+        width: "320px",
+        borderRadius: "3px",
+        titleColor: "orangered",
+        okButtonBackground: "orangered",
+        cssAnimationStyle: "zoom",
+        // etc...
+      }
+    );
+  };
+
   const deleteProduct = async (id, imageURL) => {
     try {
       //Delete documents from db
@@ -52,13 +84,11 @@ const ViewProduct = () => {
       const storageRef = ref(storage, imageURL);
       await deleteObject(storageRef);
 
-      toast.success("Product deleted successfully.")
+      toast.success("Product deleted successfully.");
     } catch (error) {
       toast.error(error.messsage);
     }
-  }
-
- 
+  };
 
   return (
     <>
@@ -96,14 +126,15 @@ const ViewProduct = () => {
                     <td>{category}</td>
                     <td>{`$ ${price}`}</td>
                     <td className={styles.icons}>
-                      <Link to="/admin/add-product">
-                        <FaEdit
-                          size={20}
-                          fgcolor="green"
-                        />
+                      <Link to={`/admin/add-product/${id}`}>
+                        <FaEdit size={20} fgcolor="green" />
                       </Link>
                       &nbsp;
-                      <FaTrashAlt size={18} color="red" />
+                      <FaTrashAlt
+                        size={18}
+                        color="red"
+                        onClick={() => confirmDelete(id, imageURL)}
+                      />
                     </td>
                   </tr>
                 );
