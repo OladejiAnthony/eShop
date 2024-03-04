@@ -8,7 +8,7 @@ import {AiOutlineArrowLeft, AiOutlineArrowRight} from "react-icons/ai"
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideLength = sliderData.length;
-  console.log(slideLength);
+  //console.log(slideLength);
 
   //AutoSlide effect
   const autoScroll = true;
