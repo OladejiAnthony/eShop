@@ -38,9 +38,11 @@ const ViewProduct = () => {
         setProducts(allProducts);
         setIsLoading(false);
         //dispatch your products to redux store
-        dispatch(STORE_PRODUCTS({
-          products: allProducts,
-        }));
+        dispatch(
+          STORE_PRODUCTS({
+            products: allProducts,
+          })
+        );
       });
     } catch (error) {
       setIsLoading(false);
