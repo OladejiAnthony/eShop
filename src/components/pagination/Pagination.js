@@ -7,7 +7,6 @@ const Pagination = ({
   setCurrentPage,
   totalProducts,
 }) => {
-    
   const pageNumbers = [];
 
   // Limit the page Numbers shown
@@ -67,6 +66,7 @@ const Pagination = ({
             </li>
           );
         }
+        
       })}
 
       <li
