@@ -113,7 +113,7 @@ const AddProduct = () => {
     }
   };
 
-   //Edit products functionality
+  //Edit products functionality
   //const { id } = useParams();
   //console.log(id);
   function detectForm(id, f1, f2) {
