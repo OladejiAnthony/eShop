@@ -15,7 +15,7 @@ const filterSlice = createSlice({
         (product) =>
           product.name.toLowerCase().includes(search.toLowerCase()) ||
           product.category.toLowerCase().includes(search.toLowerCase())
-          //we are searching for both products name and products category
+        //we are searching for both products name and products category
       );
 
       state.filteredProducts = tempProducts;
@@ -30,7 +30,8 @@ const filterSlice = createSlice({
         tempProducts = products;
       }
       if (sort === "lowest-price") {
-        tempProducts = products.slice().sort((a, b) => { //React Strict mode issue rectified
+        tempProducts = products.slice().sort((a, b) => {
+          //React Strict mode issue rectified
           return a.price - b.price;
         });
       }

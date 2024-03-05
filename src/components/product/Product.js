@@ -60,6 +60,7 @@ const Product = () => {
           ) : (
             <ProductList products={products} />
           )}
+
           {/*Mobile View */}
           <div className={styles.icon} onClick={toggleFilter}>
             <FaCogs size={20} color="orangered" />

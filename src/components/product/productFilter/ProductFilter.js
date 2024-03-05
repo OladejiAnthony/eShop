@@ -56,7 +56,7 @@ const ProductFilter = () => {
     setCategory("All");
     setBrand("All");
     setPrice(maxPrice);
-  }
+  };
 
   //Price Filter logic
   useEffect(() => {
@@ -115,7 +115,9 @@ const ProductFilter = () => {
         />
       </div>
       <br />
-      <button className="--btn --btn-danger" onClick={clearFilters}>Clear Filter</button>
+      <button className="--btn --btn-danger" onClick={clearFilters}>
+        Clear Filter
+      </button>
     </div>
   );
 };

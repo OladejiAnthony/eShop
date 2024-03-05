@@ -17,5 +17,3 @@ const Search = ({ value, onChange }) => {
 };
 
 export default Search;
-
-
