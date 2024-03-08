@@ -8,6 +8,7 @@ import { createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../firebase/config"
 import Loader from '../../components/loader/Loader'
 
+
 const Register = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -31,8 +32,8 @@ const Register = () => {
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
-            toast.success("Registration Successful...");
             setIsLoading(false);
+            toast.success("Registration Successful...");
             navigate("/login");
         })
         .catch((error) => {

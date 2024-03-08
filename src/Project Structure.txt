@@ -1,11 +1,11 @@
 #eShop Project Workflow
 Design/Layout for eShop Ecommerce App
 
--Project Structure
+-Project Structure:
 1. Project Design
 2. Frontend: React, Redux Toolkit $ React Icons, SCSS/module
-3. Backend: Firebase
-4. Tools: Emailjs, Imgbb.com, Plausible.com
+3. Backend: Firebase (db, storage)
+4. Tools: Emailjs, Imgbb.com, React-toastify, Plausible.com, notiflix, 
 5. Payment: Stripe
 6. Hosting: Heroku.com
 7. Others..
@@ -15,18 +15,18 @@ Design/Layout for eShop Ecommerce App
     b. Firebase Storage - a server where we store our documents i.e images, doc's etc
 
 
--Folder Setup
+-Folder Setup:
 1. Assets
 2. Components
-3. Pages
-4. Redux
+3. Pages (admin, auth, cart, contact, home, orderHistory)
+4. Redux-Toolkit
 5. CustomHooks
-6. Firebase
+6. Firebase (data fetching)
 
--Workflow
+-Workflow:
 1. Basic Routing & Pages implementation
 2. Navbar implementation
-3. Firebase Authentication implemtation and React-Toastify setup
+3. Firebase Authentication implementation and React-Toastify setup
     auth -> register - login - logout - reset
 4. State Management (Redux) implementation
 4. Admin Route

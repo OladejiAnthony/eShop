@@ -23,6 +23,9 @@ const logo = (
         </Link>
     </div>
 )
+const activeLink = ({isActive}) => (
+    isActive ? `${styles.active}` : ""
+) 
 const cart = (
     <span className={styles.cart}>
         <Link to="/cart">
@@ -32,9 +35,6 @@ const cart = (
         </Link>
     </span>
 )
-const activeLink = ({isActive}) => (
-    isActive ? `${styles.active}` : ""
-) 
 
 const Header = () => {
  const [showMenu, setShowMenu] = useState(false);
@@ -95,18 +95,20 @@ const Header = () => {
     });
  },[dispatch, displayName])
 
+ 
   return (
     <header>
         <div className={styles.header}>
             {logo}
-            <nav className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-nav"]}`}>
-                {/*the dark nav wrapper */}
+
+            <nav className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-nav"]}`}>           
                 <div 
                     className={showMenu ? `${styles["nav-wrapper"]} ${styles["show-nav-wrapper"]}` : `${styles["nav-wrapper"]}`} 
                     onClick={hideMenu}
-                >
+                > {/*the dark nav wrapper on mobile */}
                 </div>
-                <ul onClick={hideMenu}> {/*hides menu when i click on any of the list item on Mobile */}
+
+                <ul onClick={hideMenu}> {/*hides menu when i click on any of the list item on Mobile view */}
                     <li className={styles["logo-mobile"]}>
                         {logo}
                         <FaTimes size={22} color={"#fff"} onClick={hideMenu} cursor={'pointer'}  />
@@ -127,6 +129,7 @@ const Header = () => {
                             Home
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink to='/contact' className={activeLink}>
                             Contact Us
@@ -141,8 +144,8 @@ const Header = () => {
                                 Login
                             </NavLink>
                         </ShowOnLogout>
-                        {/* Display Users Name */}
-                        <ShowOnLogin>
+                        
+                        <ShowOnLogin>  {/* Display Users Name */}
                             <a href='#home' style={{color: "#ff7722"}}>
                                 <FaUserCircle size={16}  />
                                 Hi,
@@ -159,12 +162,14 @@ const Header = () => {
                                 My Orders
                             </NavLink>
                         </ShowOnLogin>
+
                         <ShowOnLogin>
                             <NavLink to='/' onClick={logoutUser}>
                                 Logout
                             </NavLink>
                         </ShowOnLogin>
                     </span>
+
                     {cart}
                 </div>
             </nav>

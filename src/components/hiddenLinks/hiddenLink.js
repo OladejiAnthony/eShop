@@ -3,7 +3,7 @@
 import { useSelector } from 'react-redux'
 import {selectIsLoggedIn} from "../../redux/slice/authSlice"
 
-//This component shows Menu only when user is Logged in
+//A. This component displays only when user is Logged in
 const ShowOnLogin = ({children}) => {
   const isLoggedIn = useSelector(selectIsLoggedIn); //read isLoggedIn property from authSlice
 
@@ -15,6 +15,8 @@ const ShowOnLogin = ({children}) => {
 
 export default ShowOnLogin;
 
+
+//B. This component displays only when user is Logged out
 export const ShowOnLogout = ({children}) => {
   const isLoggedIn = useSelector(selectIsLoggedIn); //read isLoggedIn property from authSlice
 
