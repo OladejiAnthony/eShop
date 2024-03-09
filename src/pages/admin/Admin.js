@@ -14,13 +14,11 @@ const Admin = () => {
         <Navbar />
       </div>
       <div className={styles.content}>
-         {/*Nested Routes */}
+         {/*Admin Nested Routes */}
           <Routes>
             <Route path="home" element={<Home />}  />
-            <Route path="all-products" element={<ViewProduct />}  />
-
             <Route path="add-product/:id" element={<AddProduct />}  />
-
+            <Route path="all-products" element={<ViewProduct />}  />
             <Route path="orders" element={<Orders />}  />
           </Routes>
       </div>

@@ -5,11 +5,21 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { toast } from "react-toastify";
 import spinnerImg from "../../../assets/spinner.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_TO_CART,
+  DECREASE_CART,
+  CALCULATE_CART_TOTAL_QUANTITY,
+  selectCartItems,
+} from "../../../redux/slice/cartSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
   //console.log(id);
   const [product, setProduct] = useState(null);
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector(selectCartItems);
 
   //Get a single document
   const getProduct = async () => {
@@ -34,6 +44,25 @@ const ProductDetails = () => {
     getProduct();
   }, []);
 
+  //cart
+  const addToCart = (product) => {
+    dispatch(ADD_TO_CART(product));
+    dispatch(CALCULATE_CART_TOTAL_QUANTITY());
+  };
+  const decreaseCart = (product) => {
+    dispatch(DECREASE_CART(product));
+    dispatch(CALCULATE_CART_TOTAL_QUANTITY());
+  };
+
+  const cart = cartItems.find((cart) => cart.id === id);
+  //console.log(cart)
+  //check whether item has been added to cart
+  const isCartAdded = cartItems.findIndex((cart) => {
+    return cart.id === id;
+    //if cart is not yet added, it returns -1,
+    //if cart is added it returns 1
+  });
+
   return (
     <section>
       <div className={`container ${styles.product}`}>
@@ -43,7 +72,7 @@ const ProductDetails = () => {
         </div>
 
         {product === null ? (
-          <img src={spinnerImg} alt="Loading"  style={{width: "50px"}}  />
+          <img src={spinnerImg} alt="Loading" style={{ width: "50px" }} />
         ) : (
           <>
             <div className={styles.details}>
@@ -62,19 +91,37 @@ const ProductDetails = () => {
                 </p>
 
                 <div className={styles.count}>
-                  <button className="--btn">-</button>
-                  <p>
-                    <b>1</b>
-                  </p>
-                  <button className="--btn">+</button>
+                  {isCartAdded < 0 ? null : (
+                    <>
+                      <button
+                        className="--btn"
+                        onClick={() => decreaseCart(product)}
+                      >
+                        -
+                      </button>
+                      <p>
+                        <b>{cart.cartQuantity}</b>
+                      </p>
+                      <button
+                        className="--btn"
+                        onClick={() => addToCart(product)}
+                      >
+                        +
+                      </button>
+                    </>
+                  )}
                 </div>
 
-                <button className="--btn --btn-danger">ADD TO CART</button>
+                <button
+                  className="--btn --btn-danger"
+                  onClick={() => addToCart(product)}
+                >
+                  ADD TO CART
+                </button>
               </div>
             </div>
           </>
         )}
-
       </div>
     </section>
   );

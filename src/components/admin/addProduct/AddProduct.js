@@ -31,16 +31,14 @@ const initialState = {
   desc: "",
 };
 
-
-
 const AddProduct = () => {
-  //Edit Product code
+  //-Edit Product code-
   const { id } = useParams(); //console.log(id)
   const products = useSelector(selectProducts); //console.log(products);
   const productEdit = products.find((item) => item.id === id);
   //console.log(productEdit)
 
-  //Add Product Code
+  //-Add Product Code-
   //const [product, setProduct] = useState({ ...initialState });
   const [product, setProduct] = useState(() => {
     const newState = detectForm(id, { ...initialState }, productEdit);
@@ -51,8 +49,6 @@ const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-
- 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -187,7 +183,8 @@ const AddProduct = () => {
                   >
                     {uploadProgress < 100
                       ? `uploading ${uploadProgress}`
-                      : `Upload Complete ${uploadProgress}%`}
+                      : `Upload Complete ${uploadProgress}%`
+                    }
                   </div>
                 </div>
               )}

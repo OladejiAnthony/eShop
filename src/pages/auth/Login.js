@@ -102,7 +102,7 @@ const Login = () => {
                     </button>
                     <span className={styles.register}>
                         <p>Don't have an account?
-                        <Link to="/register">Register</Link>
+                        <Link to="/register" style={{fontWeight: "bold", marginLeft: "1rem", color: "orangered"}}>Register</Link>
                         </p>
                     </span>
                 </div>

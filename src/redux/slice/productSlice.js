@@ -1,3 +1,4 @@
+//rxslice
 import { createSlice } from "@reduxjs/toolkit";
 
 const productSlice = createSlice({
@@ -13,6 +14,7 @@ const productSlice = createSlice({
       //console.log(action.payload)
       state.products = action.payload.products;
     },
+    
     GET_PRICE_RANGE: (state, action) => {
       //console.log(action.payload);
       const { products } = action.payload;
