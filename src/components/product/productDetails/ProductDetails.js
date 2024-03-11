@@ -19,9 +19,10 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const dispatch = useDispatch();
 
+  //read data from redux cartSlice
   const cartItems = useSelector(selectCartItems);
 
-  //Get a single document
+  //Get a single document from db
   const getProduct = async () => {
     //console.log("Getting Product")
     const docRef = doc(db, "products", id);

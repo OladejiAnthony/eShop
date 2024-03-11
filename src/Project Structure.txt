@@ -5,7 +5,7 @@ Design/Layout for eShop Ecommerce App
 1. Project Design
 2. Frontend: React, Redux Toolkit $ React Icons, SCSS/module
 3. Backend: Firebase (db, storage)
-4. Tools: Emailjs, Imgbb.com, React-toastify, Plausible.com, notiflix, 
+4. Tools: Emailjs, Imgbb.com, React-toastify, Plausible.com, notiflix, react-country-region-selector, 
 5. Payment: Stripe
 6. Hosting: Heroku.com
 7. Others..
@@ -37,7 +37,7 @@ Design/Layout for eShop Ecommerce App
 9. Pagination
 10. Cart implementation
 11. Checkout implementation
-12. Payment Implementation
+12. Stripe Payment Implementation & Server configuration
 13. Order History & details implelmentation
 14. Review Product implementation
 15. Admin dashboard
@@ -50,4 +50,22 @@ Design/Layout for eShop Ecommerce App
 --How to get Username from normal signin method
 a. Write logic that extracts texts in the user's login email and convert it to displayName in Header.js     OR
 b. Add username field on your login page and display it
+
+--Stripe Payment Gateway Settings:
+React Strip Example - npm install  @stripe/react-stripe-js @stripe/stripe-js 
+yarn add stripe express dotenv cors (install express server)
+yarn global add nodemon (monitor and start backend server)
+
+//Stripe Dashboard -
+a. publishable key - Check your .env file
+b. secret key -  Check your .env file
+
+--Server configuration:
+//Add the fflg scripts to package.json inorder to start server:
+    "start:frontend": "react-scripts start",
+    "start:backend": "nodemon server.js",
+    "start": "node server",
+    Henceforth, you will be using - yarn start:frontend, and yarn start:backend to start this app, no more yarn start alone.
+    
+
 

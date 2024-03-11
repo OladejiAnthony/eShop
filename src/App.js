@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 //Pages
-import { Home, Contact, Login, Register, Reset, Admin, Cart } from "./pages/index";
+import { Home, Contact, Login, Register, Reset, Admin, Cart, CheckoutDetails } from "./pages/index";
 //Components
 import { Header, Footer, ProductDetails } from "./components/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
+import Checkout from "./pages/checkout/Checkout";
 
 const App = () => {
   return (
@@ -33,6 +34,9 @@ const App = () => {
           <Route path="/product-details/:id" element={<ProductDetails />} />
           {/*Cart */}
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout-details" element={<CheckoutDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          
         </Routes>
         <Footer />
       </BrowserRouter>

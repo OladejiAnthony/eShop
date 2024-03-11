@@ -11,15 +11,18 @@ import {
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
+  SAVE_URL,
 } from "../../redux/slice/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
 import Card from "../../components/card/Card";
+import { selectIsLoggedIn } from "../../redux/slice/authSlice";
 
 const Cart = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const dispatch = useDispatch();
 
@@ -42,7 +45,25 @@ const Cart = () => {
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL());
     dispatch(CALCULATE_CART_TOTAL_QUANTITY());
+    dispatch(SAVE_URL("")) //on page first load, save url is empty in redux
   }, [dispatch, cartItems]); // it fires off everytime the cartItem changes
+
+  //track url whenever user is on this page
+  const url = window.location.href;
+  //console.log(url)
+  const navigate = useNavigate()
+  const checkout = () => {
+    if(isLoggedIn) {
+      //on user login, redirect to checkout details page 
+      navigate("/checkout-details")
+    }else {
+      //dispatch action to redux
+      //navigate user to login
+      dispatch(SAVE_URL(url))
+      navigate("/login")
+    }
+  }
+
 
   return (
     <section>
@@ -145,7 +166,7 @@ const Cart = () => {
                     <h3>{`$ ${cartTotalAmount.toFixed(2)}`}</h3>
                   </div>
                   <p>Tax and sipping calculated at checkout</p>
-                  <button className="--btn --btn-primary --btn-block">
+                  <button className="--btn --btn-primary --btn-block" onClick={checkout}>
                     Checkout
                   </button>
                 </Card>

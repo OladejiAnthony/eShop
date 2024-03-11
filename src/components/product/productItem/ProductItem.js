@@ -17,8 +17,6 @@ const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
     return text;
   }
 
-  
-
   const addToCart = (product) => {
     dispatch(ADD_TO_CART(
       product
