@@ -61,11 +61,13 @@ a. publishable key - Check your .env file
 b. secret key -  Check your .env file
 
 --Server configuration:
-//Add the fflg scripts to package.json inorder to start server:
+a. //Add the fflg scripts to the package.json  file in order to start server:
     "start:frontend": "react-scripts start",
     "start:backend": "nodemon server.js",
     "start": "node server",
-    Henceforth, you will be using - yarn start:frontend, and yarn start:backend to start this app, no more yarn start alone.
-    
+    #Henceforth, you will be using - "yarn start:frontend" and "yarn start:backend" (npm run start:frontend and npm run start:backend) to start this app, no more "yarn start" or "mpm run start" alone.
+
+b. use the Stripe React and Node code on this page to setup express server 
+    https://docs.stripe.com/payments/quickstart
 
 

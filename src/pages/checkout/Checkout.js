@@ -16,12 +16,14 @@ import {
 import { toast } from "react-toastify";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
+//use dotenv variable on frontend
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
   const [message, setMessage] = useState("Initializing checkout...");
   const [clientSecret, setClientSecret] = useState("");
 
+  //redux
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const customerEmail = useSelector(selectEmail);
@@ -38,9 +40,11 @@ const Checkout = () => {
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   useEffect(() => {
+    //https://eshop-react-firebase.herokuapp.com/create-payment-intent
     // http://localhost:4242/create-payment-intent
     // Create PaymentIntent as soon as the page loads
-    fetch("https://eshop-react-firebase.herokuapp.com/create-payment-intent", {
+    fetch("http://localhost:4242/create-payment-intent", {
+      //an intention to make a payment from backend
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -77,7 +81,9 @@ const Checkout = () => {
   return (
     <>
       <section>
-        <div className="container">{!clientSecret && <h3>{message}</h3>}</div>
+        <div className="container">    
+          {!clientSecret && <h3>{message}</h3>}
+        </div>
       </section>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
