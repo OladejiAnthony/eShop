@@ -4,17 +4,41 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import styles from "./CheckoutForm.module.scss";
+import Card from "../card/Card";
+import CheckoutSummary from "../checkoutSummary/CheckoutSummary";
+import spinnerImg from "../../assets/spinner.jpg";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { selectEmail, selectUserID } from "../../redux/slice/authSlice";
+import {
+  CLEAR_CART,
+  selectCartItems,
+  selectCartTotalAmount,
+} from "../../redux/slice/cartSlice";
+import { selectShippingAddress } from "../../redux/slice/checkoutSlice";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
 
-export default function CheckoutForm() {
+const CheckoutForm = () => {
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
-  const [message, setMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //redux
+  const userID = useSelector(selectUserID);
+  const userEmail = useSelector(selectEmail);
+  const cartItems = useSelector(selectCartItems);
+  const cartTotalAmount = useSelector(selectCartTotalAmount);
+  const shippingAddress = useSelector(selectShippingAddress);
 
   useEffect(() => {
     if (!stripe) {
-      return;
+      return; //return nothing
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
@@ -22,74 +46,122 @@ export default function CheckoutForm() {
     );
 
     if (!clientSecret) {
-      return;
+      return; //return nothing
     }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
   }, [stripe]);
+
+  //db - Save order to Order History
+  const saveOrder = () => {
+    //console.log("order saved");
+    const today = new Date();
+    const date = today.toDateString();
+    const time = today.toLocaleTimeString();
+    //order-configuration object properties
+    const orderConfig = {
+      userID,
+      userEmail,
+      orderDate: date,
+      orderTime: time,
+      orderAmount: cartTotalAmount,
+      orderStatus: "Order Placed...",
+      cartItems,
+      shippingAddress,
+      createdAt: Timestamp.now().toDate(),
+    };
+    try {
+      // Add a new document with a generated id to the orders collection.
+      addDoc(collection(db, "orders"), orderConfig);
+      dispatch(CLEAR_CART()); //clear cart when order has beeen saved
+      toast.success("Order saved");
+      //navigate to checkout successs page
+      navigate("/checkout-success");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage(null);
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
-      },
-    });
-
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
-    }
+    const confirmPayment = await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          //Go to checkout success page if payment is successful
+          return_url: "http://localhost:3000/checkout-success",
+        },
+        redirect: "if_required",
+      })
+      .then((result) => {
+        // results: bad = error or ok = paymentIntent
+        if (result.error) {
+          toast.error(result.error.message);
+          setMessage(result.error.message);
+          return;
+        }
+        if (result.paymentIntent) {
+          if (result.paymentIntent.status === "succeeded") {
+            setIsLoading(false);
+            toast.success("Payment successful");
+            //call save Order function
+            saveOrder();
+          }
+        }
+      });
 
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
-
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <section>
+      <div className={`container ${styles.checkout}`}>
+        <h2>Checkout</h2>
+        <form onSubmit={handleSubmit}>
+          {/*Checkout Summary */}
+          <div>
+            <Card cardClass={styles.card}>
+              <CheckoutSummary />
+            </Card>
+          </div>
+          {/*Stripe Payment */}
+          <div>
+            <Card cardClass={`${styles.card} ${styles.pay}`}>
+              <h3>Stripe Checkout</h3>
+              <PaymentElement id={styles["payment-element"]} />
+
+              <button
+                disabled={isLoading || !stripe || !elements}
+                id="submit"
+                className={styles.button}
+              >
+                <span id="button-text">
+                  {isLoading ? (
+                    <img
+                      src={spinnerImg}
+                      alt="Loading..."
+                      style={{ width: "20px" }}
+                    />
+                  ) : (
+                    "Pay now"
+                  )}
+                </span>
+              </button>
+              {/* Show any error or success messages */}
+              {message && <div id={styles["payment-message"]}>{message}</div>}
+            </Card>
+          </div>
+        </form>
+      </div>
+    </section>
   );
-}
+};
+
+export default CheckoutForm;

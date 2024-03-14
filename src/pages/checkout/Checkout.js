@@ -40,14 +40,14 @@ const Checkout = () => {
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   useEffect(() => {
+    // Create PaymentIntent as soon as the page loads:
     //https://eshop-react-firebase.herokuapp.com/create-payment-intent
     // http://localhost:4242/create-payment-intent
-    // Create PaymentIntent as soon as the page loads
     fetch("http://localhost:4242/create-payment-intent", {
-      //an intention to make a payment from backend
+      //an intention to make a payment from backend, fetch request to the backend server
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      body: JSON.stringify({ //we are sending this requests to the backend server
         items: cartItems,
         userEmail: customerEmail,
         shipping: shippingAddress,
@@ -58,8 +58,8 @@ const Checkout = () => {
       .then((res) => {
         if (res.ok) {
           return res.json();
-        }
-        return res.json().then((json) => Promise.reject(json));
+        }//else
+        return res.json().then((json) => Promise.reject(json)); //reject promise - cancel the process
       })
       .then((data) => {
         setClientSecret(data.clientSecret);

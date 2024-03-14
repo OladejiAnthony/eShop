@@ -70,4 +70,11 @@ a. //Add the fflg scripts to the package.json  file in order to start server:
 b. use the Stripe React and Node code on this page to setup express server 
     https://docs.stripe.com/payments/quickstart
 
+c. Stripe Test Card
+  //stripe.doc/docs/testing:
+    card n0 - 4242 4242 4242 4242.
+    date: any future date (12/34)
+    cvv: any three digits(222)
+  //Check payment history here - 
+  https://dashboard.stripe.com/test/payments
 

@@ -5599,6 +5599,11 @@ globby@^11.0.4, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+goober@^2.0.37:
+  version "2.1.14"
+  resolved "https://registry.npmjs.org/goober/-/goober-2.1.14.tgz#4a5c94fc34dc086a8e6035360ae1800005135acd"
+  integrity sha512-4UpC0NdGyAFqLNPnhCT2iHpza2q+RAY3GV85a/mRPdzyPQMsj0KmMMuetdIkzWRbJ+Hgau1EZztq8ImmiMGhsg==
+
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/gopd/-/gopd-1.0.1.tgz#29ff76de69dac7489b7c0918a5788e56477c332c"
@@ -8671,6 +8676,13 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-star-rate@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/react-star-rate/-/react-star-rate-0.2.0.tgz#11857c6d351129aff7a809209b115b484f8f0edb"
+  integrity sha512-t5LNriqbQH8gcRdWolSkDc+Iox68UKyS3olbKDKXcg07PRmYxF96Q0sDot1M2hmDDv9iR0Cm74DMbAGvLTMdag==
+  dependencies:
+    goober "^2.0.37"
 
 react-toastify@^10.0.4:
   version "10.0.4"
