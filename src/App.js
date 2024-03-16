@@ -12,6 +12,7 @@ import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
 import OrderHistory from "./pages/ordersHistory/OrderHistory";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
 import ReviewProducts from "./components/reviewProducts/ReviewProducts";
+import Orders from "./components/admin/orders/Orders";
 
 const App = () => {
   return (
@@ -34,6 +35,8 @@ const App = () => {
               </AdminOnlyRoute>
             }
           />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/admin/order-details/:id" element={<OrderDetails />} />
           {/*Product Details Route */}
           <Route path="/product-details/:id" element={<ProductDetails />} />
           {/*Cart */}
@@ -41,8 +44,8 @@ const App = () => {
           <Route path="/checkout-details" element={<CheckoutDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          {/*Orders */}
           <Route path="/order-history" element={<OrderHistory />} />
-          <Route path="/order-details/:id" element={<OrderDetails />} />
           <Route path="/review-product/:id" element={<ReviewProducts />} />
           
         </Routes>

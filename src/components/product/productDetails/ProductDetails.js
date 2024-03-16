@@ -12,6 +12,10 @@ import {
   CALCULATE_CART_TOTAL_QUANTITY,
   selectCartItems,
 } from "../../../redux/slice/cartSlice";
+import useFetchDocument from "../../../customHooks/useFetchDocument";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
+import Card from "../../card/Card";
+import StarsRating from "react-star-rate";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -21,6 +25,12 @@ const ProductDetails = () => {
 
   //read data from redux cartSlice
   const cartItems = useSelector(selectCartItems);
+
+  //reviews
+  const { document } = useFetchDocument("products", id);
+  const { data } = useFetchCollection("reviews");
+  //console.log(data);
+  const filteredReviews = data.filter((review) => review.productID === id); //filter specific product review using its id property
 
   //Get a single document from db
   const getProduct = async () => {
@@ -42,8 +52,9 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    //getProduct();
+    getProduct(document);
+  }, [document]);
 
   //cart
   const addToCart = (product) => {
@@ -123,6 +134,36 @@ const ProductDetails = () => {
             </div>
           </>
         )}
+        {/*Reviews */}
+        <Card cardClass={styles.card}>
+          <h3>Product Reviews</h3>
+          <div>
+            {filteredReviews.length === 0 ? (
+              <p>There are no reviews for this product yet.</p>
+            ) : (
+              <>
+                {filteredReviews.map((item, index) => {
+                  //destructure
+                  const { rate, review, reviewDate, userName } = item;
+                  return (
+                    <div key={index} className={styles.review}>
+                      <StarsRating value={rate} />
+                      <p>{review}</p>
+                      <span>
+                        <b>{reviewDate}</b>
+                      </span>
+                      <br />
+                      <span>
+                        <b>by: {userName}</b>
+                      </span>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
+        </Card>
+
       </div>
     </section>
   );
