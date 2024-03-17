@@ -19,7 +19,7 @@ const initialAddressState = {
 }
 
 
-const CkeckoutDetails = () => {
+const CheckoutDetails = () => {
   const [shippingAddress, setShippingAddress] = useState({...initialAddressState});
   const [billingAddress, setBillingAddress] = useState({...initialAddressState});
 
@@ -237,4 +237,4 @@ const CkeckoutDetails = () => {
   )
 }
 
-export default CkeckoutDetails
+export default CheckoutDetails

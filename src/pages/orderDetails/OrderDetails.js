@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import useFetchDocument from "../../customHooks/useFetchDocument";
 import spinnerImg from "../../assets/spinner.jpg";
 import styles from "./OrderDetails.module.scss";
-import useFetchDocument from "../../customHooks/useFetchDocument";
-
-
 const OrderDetails = () => {
   const [order, setOrder] = useState(null);
   const { id } = useParams();
-  const { document } = useFetchDocument("orders", id);//get single doc from firebase to dispaly order details based on id
+  const { document } = useFetchDocument("orders", id);
 
   useEffect(() => {
     setOrder(document);
@@ -89,3 +86,4 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
+

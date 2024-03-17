@@ -8,6 +8,7 @@ import Loader from "../../loader/Loader";
 import styles from "./ChangeOrderStatus.module.scss";
 
 const ChangeOrderStatus = ({ order, id }) => {
+  //order and id states are props coming from the orderDetails component
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,14 +16,14 @@ const ChangeOrderStatus = ({ order, id }) => {
   const editOrder = (e, id) => {
     e.preventDefault();
     setIsLoading(true);
-
+    //order properties from db
     const orderConfig = {
       userID: order.userID,
       userEmail: order.userEmail,
       orderDate: order.orderDate,
       orderTime: order.orderTime,
       orderAmount: order.orderAmount,
-      orderStatus: status,
+      orderStatus: status, //update order status to db
       cartItems: order.cartItems,
       shippingAddress: order.shippingAddress,
       createdAt: order.createdAt,

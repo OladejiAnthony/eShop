@@ -16,6 +16,7 @@ import {
   STORE_ORDERS,
 } from "../../../redux/slice/orderSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
+import Chart from "../../chart/Chart";
 
 
 
@@ -69,8 +70,9 @@ const Home = () => {
           icon={ordersIcon}
         />
       </div>
+      {/*Bar Chart */}
       <div>
-        
+        <Chart />
       </div>
     </div>
   )

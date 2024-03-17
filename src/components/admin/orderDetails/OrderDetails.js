@@ -8,10 +8,12 @@ import ChangeOrderStatus from "../changeOrderStatus/ChangeOrderStatus";
 const OrderDetails = () => {
   const [order, setOrder] = useState(null);
   const { id } = useParams();
+  //firebase orders collection
   const { document } = useFetchDocument("orders", id);
 
   useEffect(() => {
     setOrder(document);
+    //put the orders data u are receiving from firebase into the order state
   }, [document]);
 
   return (
@@ -26,6 +28,7 @@ const OrderDetails = () => {
           <img src={spinnerImg} alt="Loading..." style={{ width: "50px" }} />
         ) : (
           <>
+            {/*Order details*/}
             <p>
               <b>Order ID</b> {order.id}
             </p>
@@ -35,6 +38,7 @@ const OrderDetails = () => {
             <p>
               <b>Order Status</b> {order.orderStatus}
             </p>
+            {/*Shipping Address*/}
             <p>
               <b>Shipping Address</b>
               <br />
@@ -46,6 +50,7 @@ const OrderDetails = () => {
               Country: {order.shippingAddress.country}
             </p>
             <br />
+            {/*Product details*/}
             <table>
               <thead>
                 <tr>
@@ -84,7 +89,7 @@ const OrderDetails = () => {
             </table>
           </>
         )}
-        <ChangeOrderStatus order={order} id={id} />
+        <ChangeOrderStatus order={order} id={id} /> {/*the order and id states are passed as props to this component */}
       </div>
     </>
   );

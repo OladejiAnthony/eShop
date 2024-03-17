@@ -7,10 +7,8 @@ import { selectUserID } from "../../redux/slice/authSlice";
 import { selectOrderHistory, STORE_ORDERS } from "../../redux/slice/orderSlice";
 import styles from "./OrderHistory.module.scss";
 
-
 const OrderHistory = () => {
-  const { data, isLoading } = useFetchCollection("orders");//our custom hook to fetch orders collection from db
-  //console.log(data);
+  const { data, isLoading } = useFetchCollection("orders");
   const orders = useSelector(selectOrderHistory);
   const userID = useSelector(selectUserID);
 
@@ -19,15 +17,12 @@ const OrderHistory = () => {
 
   useEffect(() => {
     dispatch(STORE_ORDERS(data));
-    //dispatch order-data from db into our redux;to store our orders locally
   }, [dispatch, data]);
 
   const handleClick = (id) => {
     navigate(`/order-details/${id}`);
-    //navigate to orderDetails page using order id
   };
 
-  //filter through the orders from redux
   const filteredOrders = orders.filter((order) => order.userID === userID);
 
   return (
@@ -56,7 +51,6 @@ const OrderHistory = () => {
                 </thead>
                 <tbody>
                   {filteredOrders.map((order, index) => {
-                    //destructure
                     const {
                       id,
                       orderDate,
@@ -100,3 +94,4 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
+

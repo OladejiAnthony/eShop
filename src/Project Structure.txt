@@ -5,7 +5,7 @@ Design/Layout for eShop Ecommerce App
 1. Project Design
 2. Frontend: React, Redux Toolkit $ React Icons, SCSS/module
 3. Backend: Firebase (db, storage)
-4. Tools: Emailjs, Imgbb.com, React-toastify, Plausible.com, notiflix, react-country-region-selector, react-star-rate
+4. Tools: Emailjs, Imgbb.com, React-toastify, Plausible.com, notiflix, react-country-region-selector, react-star-rate, react-chartjs-2
 5. Payment: Stripe
 6. Hosting: Heroku.com
 7. Others..
@@ -40,8 +40,8 @@ Design/Layout for eShop Ecommerce App
 12. Stripe Payment Implementation & Server configuration
 13. Order History & details implementation
 14. Review Product implementation
-15. Admin Dashboard - Info Box component 
-16. Admin dashboard - View orders, Order Status Chart
+15. Admin Dashboard - Info Box component,  
+16. Admin dashboard - View orders, Order Status Chart implementation (https://react-chartjs-2.js.org), Search Filter, Pagination
 17. Contact page
 18. Testing App
 19. Deployment
