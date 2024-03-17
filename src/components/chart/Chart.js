@@ -38,20 +38,28 @@ export const options = {
 };
 
 const Chart = () => {
-    //read order data from redux
+  //read order data from redux
   const orders = useSelector(selectOrderHistory);
 
   // Create a new array of order status
   const array = [];
+  //map through the orders in redux
   orders.map((item) => {
+    //destructure the orderstatus property in redux
     const { orderStatus } = item;
+    //push the orderstatus of redux into the new array
     return array.push(orderStatus);
   });
+  //console.log(array)
 
+  //get the count from the new array function
   const getOrderCount = (arr, value) => {
     return arr.filter((n) => n === value).length;
+    //get no of items inside the arr function
   };
 
+  //const x = getOrderCount(array, "Order Placed...")
+  //console.log(x)
   const [q1, q2, q3, q4] = [
     "Order Placed...",
     "Processing...",
@@ -59,11 +67,13 @@ const Chart = () => {
     "Delivered",
   ];
 
+  //from firebase
   const placed = getOrderCount(array, q1);
   const processing = getOrderCount(array, q2);
   const shipped = getOrderCount(array, q3);
   const delivered = getOrderCount(array, q4);
 
+  //Displayed data
   const data = {
     labels: ["Placed Orders", "Processing", "Shipped", "Delivered"],
     datasets: [
@@ -86,4 +96,3 @@ const Chart = () => {
 };
 
 export default Chart;
-
