@@ -26,6 +26,7 @@ const ProductList = ({ products }) => {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
+    //performs slice operation on the filtered product
     indexOfFirstProduct,
     indexOfLastProduct
   );

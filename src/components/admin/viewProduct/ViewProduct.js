@@ -1,4 +1,4 @@
-import { useEffect,  } from "react";
+import { useEffect, useState,  } from "react";
 import styles from "./ViewProduct.module.scss";
 import { toast } from "react-toastify";
 import { db, storage } from "../../../firebase/config";
@@ -11,6 +11,9 @@ import Notiflix from "notiflix";
 import { useDispatch, useSelector } from "react-redux";
 import { STORE_PRODUCTS, selectProducts } from "../../../redux/slice/productSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
+import { FILTER_BY_SEARCH, selectFilteredProducts } from "../../../redux/slice/filterSlice";
+import Search from "../../search/Search";
+import Pagination from "../../pagination/Pagination";
 
 
 const ViewProduct = () => {
@@ -55,9 +58,12 @@ const ViewProduct = () => {
   // }, []);
 
   const {data, isLoading} = useFetchCollection("products"); //The collectionName prop value is "products"
+  const [search, setSearch] = useState("");
+  
 
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
+  const filteredProducts = useSelector(selectFilteredProducts);
 
   useEffect(() => {
     dispatch(
@@ -106,12 +112,44 @@ const ViewProduct = () => {
     }
   };
 
+    //Search Filter logic
+  useEffect(() => {
+    //console.log(search);
+    dispatch(
+      FILTER_BY_SEARCH({
+        products,
+        search,
+      })
+    );
+  }, [search, products, dispatch]);
+
+  //pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(10);
+  //Get Current Products
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    //performs slice operation on the filtered product
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  
+
   return (
     <>
       {isLoading && <Loader />}
       <div className={styles.table}>
         <h2>All Products</h2>
-        {products.length === 0 ? (
+        {/*Search Input */}
+        <div className={styles.search}>
+          <p>
+            <b>{filteredProducts.length}</b> products found
+          </p>
+          <Search value={search} onChange={(e) => setSearch(e.target.value)} />
+        </div>
+        {/*before search functions, we were filtering originally through the "products" state from redux */}
+        {filteredProducts.length === 0 ? (
           <p>No Products found.</p>
         ) : (
           <table>
@@ -126,7 +164,7 @@ const ViewProduct = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => {
+              {currentProducts.map((product, index) => {
                 const { id, name, price, imageURL, category } = product;
                 return (
                   <tr key={id}>
@@ -158,7 +196,15 @@ const ViewProduct = () => {
             </tbody>
           </table>
         )}
-      </div>
+        {/*Pagination */}
+        <Pagination
+          productsPerPage={productsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalProducts={filteredProducts.length}
+        />
+        </div>
+
     </>
   );
 };
