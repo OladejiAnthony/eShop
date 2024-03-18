@@ -13,7 +13,7 @@ import {
   selectCartTotalQuantity,
   SAVE_URL,
 } from "../../redux/slice/cartSlice";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
 import Card from "../../components/card/Card";
 import { selectIsLoggedIn } from "../../redux/slice/authSlice";

@@ -14,10 +14,10 @@ import {
   REMOVE_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
 import ShowOnLogin, { ShowOnLogout } from "../hiddenLinks/hiddenLink";
-import AdminOnlyRoute, {
+import {
   AdminOnlyLink,
 } from "../adminOnlyRoute/AdminOnlyRoute";
-import { CALCULATE_CART_TOTAL_QUANTITY, selectCartTotalAmount, selectCartTotalQuantity } from "../../redux/slice/cartSlice";
+import { CALCULATE_CART_TOTAL_QUANTITY,  selectCartTotalQuantity } from "../../redux/slice/cartSlice";
 
 const logo = (
   <div className={styles.logo}>
@@ -120,7 +120,7 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(CALCULATE_CART_TOTAL_QUANTITY())
-  },[])
+  },[dispatch])
 
   const cart = (
     <span className={styles.cart}>

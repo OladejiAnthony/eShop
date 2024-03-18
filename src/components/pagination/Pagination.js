@@ -67,7 +67,8 @@ const Pagination = ({
           );
         }
         
-      })}
+      }
+      )}
 
       <li
         onClick={paginateNext}

@@ -15,7 +15,6 @@ const Contact = () => {
     //Emailjs
     emailjs
       .sendForm(
-        //use dotenv variable on frontend
         "service_xugnaek",
         "template_6i2f90p",
         form.current,

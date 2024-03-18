@@ -6,7 +6,6 @@ import { Home, Contact, Login, Register, Reset, Admin} from "./pages/index";
 import { Header, Footer, ProductDetails } from "./components/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
