@@ -14,11 +14,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//Production rule
+const path = require("path");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
+//yarn run build
+
+
 //Backend Homepage
 app.get("/", (req, res) => {
     //get response and request
     res.send("Welcome to eShop Website.") //send response to server
 } )
+
+
 
 
 //calculate order amount in the backend
