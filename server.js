@@ -94,8 +94,5 @@ app.listen(PORT, () => console.log(`Node server listening on port ${PORT}!`));
 //server localhost - localhost:4242
 
 
-
-
-
 //Payment Logic implementation: From Checkout file to Server file to CheckoutForm file.
 

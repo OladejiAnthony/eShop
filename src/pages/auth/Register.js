@@ -27,6 +27,7 @@ const Register = () => {
         }
         setIsLoading(true);
         
+        //Create a password-based account
         //Create or Register User Account in db
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -102,3 +103,6 @@ const Register = () => {
 }
 
 export default Register
+
+
+

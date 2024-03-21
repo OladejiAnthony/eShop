@@ -40,7 +40,7 @@ const Checkout = () => {
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads:
+    // Create PaymentIntent as soon as the page loads with backend url:
     //https://eshop-react-firebase.herokuapp.com/create-payment-intent
     // http://localhost:4242/create-payment-intent
     fetch("http://localhost:4242/create-payment-intent", {

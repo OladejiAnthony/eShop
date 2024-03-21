@@ -13,6 +13,7 @@ const Reset = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false)
 
+  //Send a password reset email
   const resetPassword = (e) => {
     e.preventDefault();
     setIsLoading(true)
@@ -73,3 +74,5 @@ const Reset = () => {
 }
 
 export default Reset
+
+

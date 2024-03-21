@@ -26,9 +26,13 @@ const Slider = () => {
   }
 
   useEffect(() => {
-    setCurrentSlide(0) //everytime page reloads or rerenders
+    setCurrentSlide(0) 
+    //everytime page reloads or rerenders
   },[])
-  
+
+  // const auto = () => {
+  //   slideInterval = setInterval(nextSlide, intervalTime);
+  // };
   
   useEffect(() => {
     if(autoScroll) {
@@ -46,7 +50,7 @@ const Slider = () => {
         <AiOutlineArrowRight className='arrow next' onClick={nextSlide} />
         <AiOutlineArrowLeft className='arrow prev' onClick={prevSlide} />
         {
-            sliderData.map((slide,index) => {
+            sliderData.map((slide, index) => {
                 const {image, heading, desc} = slide;
                 return (
                     <div 

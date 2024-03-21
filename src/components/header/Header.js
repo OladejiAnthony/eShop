@@ -19,6 +19,7 @@ import {
 } from "../adminOnlyRoute/AdminOnlyRoute";
 import { CALCULATE_CART_TOTAL_QUANTITY,  selectCartTotalQuantity } from "../../redux/slice/cartSlice";
 
+
 const logo = (
   <div className={styles.logo}>
     <Link to="/">
@@ -50,6 +51,8 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
+
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -58,18 +61,18 @@ const Header = () => {
     setShowMenu(false);
   };
 
-  const logoutUser = () => {
-    signOut(auth)
-      .then(() => {
-        toast.success("Logout Successfully.");
-        navigate("/");
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+    //Sets scrollpage & navbar
+  const fixedNavbar = () => {
+      if (window.scrollY > 50) {
+        //if we scroll on the vertical axis and it gets to 50px
+        setScrollPage(true);
+      }else {
+          setScrollPage(false);
+      }
   };
+  window.addEventListener("scroll", fixedNavbar);
 
-  //Monitor currently signedIn User
+  //Monitor currently signedIn User with db
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -90,34 +93,39 @@ const Header = () => {
           setdisplayName(user.displayName);
         }
 
-        //dispatch current user info to authSlice/redux
+        //dispatch current user info to redux - authSlice.js
         dispatch(
           SET_ACTIVE_USER({
             email: user.email,
             userName: user.displayName ? user.displayName : displayName,
             userID: user.uid,
+            //other parameters we can get from db :
+            //photoURL: null,
+            //phoneNumber: null,
+            //accessToken:
           })
         );
       } else {
-        // User is signed out
+        // User is signed out or NO User
         setdisplayName("");
         dispatch(REMOVE_ACTIVE_USER()); //remove current user from authSlice/redux
       }
     });
   }, [dispatch, displayName]);
 
-  //Sets scrollpage & navbar
-  const fixedNavbar = () => {
-    if (window.scrollY > 50) {
-      //if we scroll on the vertical axis and it gets to 50px
-      setScrollPage(true);
-    }else {
-        setScrollPage(false);
-    }
+  //Signout user db
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        toast.success("Logout Successfully.");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
-  window.addEventListener("scroll", fixedNavbar);
 
-
+  //Display cart quantity on Header
   useEffect(() => {
     dispatch(CALCULATE_CART_TOTAL_QUANTITY())
   },[dispatch])
@@ -156,7 +164,6 @@ const Header = () => {
           </div>
 
           <ul onClick={hideMenu}>
-            {" "}
             {/*hides menu when i click on any of the list item on Mobile view */}
             <li className={styles["logo-mobile"]}>
               {logo}
@@ -167,6 +174,7 @@ const Header = () => {
                 cursor={"pointer"}
               />
             </li>
+
             <li>
               <AdminOnlyLink>
                 <Link to="/admin/home">
@@ -187,7 +195,6 @@ const Header = () => {
           </ul>
 
           <div className={styles["header-right"]} onClick={hideMenu}>
-            {" "}
             {/*hides menu when i click on any of the list item */}
             <span className={styles.links}>
               <ShowOnLogout>
@@ -197,7 +204,6 @@ const Header = () => {
               </ShowOnLogout>
 
               <ShowOnLogin>
-                {" "}
                 {/* Display Users Name */}
                 <a href="#home" style={{ color: "#ff7722" }}>
                   <FaUserCircle size={16} />
@@ -207,8 +213,9 @@ const Header = () => {
               </ShowOnLogin>
 
               {/* <NavLink to='/register' className={activeLink}>
-                            Register
-                        </NavLink> */}
+                    Register
+                  </NavLink>
+             */}
 
               <ShowOnLogin>
                 <NavLink to="/order-history" className={activeLink}>

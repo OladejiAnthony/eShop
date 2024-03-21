@@ -17,7 +17,7 @@ const useFetchCollection = (collectionName) => {
           //get data from firebase
           const docRef = collection(db, collectionName);
           //Order and limit data
-          const q = query(docRef, orderBy("createdAt", "desc")); //query or order for products from db based on the time dy were created but in descending order.
+          const q = query(docRef, orderBy("createdAt", "desc")); //query or order for products from db based on the time they were created but in descending order.
           //Listen to multiple documents in a collection
           onSnapshot(q, (snapshot) => {
             //onSnapShot helps us monitor the docs in our db
@@ -38,8 +38,8 @@ const useFetchCollection = (collectionName) => {
     };
 
     useEffect(() => {
-        getCollection()
-    }, [])
+      getCollection();
+    }, []);
     
     return {data, isLoading};
       

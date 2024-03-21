@@ -25,10 +25,10 @@ Design/Layout for eShop Ecommerce App
 
 -Workflow:
 1. Basic Routing & Pages implementation
-2. Navbar implementation
+2. Header or Navbar implementation
 3. Firebase Authentication implementation and React-Toastify setup
-    auth -> register - login - logout - reset
-4. State Management (Redux) implementation
+    auth -> register - login - logout - reset (db opeartions)
+4. State Management (Redux) Authentication implementation (redux operation)
 4. Admin Route
 5. Admin Dashboard implementation
 6. Products implementation & Crud & data Fetching

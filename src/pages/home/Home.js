@@ -10,6 +10,8 @@ const Home = () => {
   //scroll to product section based on what we have in the url
   const scrollToProducts = () => {
     if(url.includes("#products")) {
+
+      //products id is inside ProductList and Slider component
       window.scrollTo({
         top: 700,
         behavior: "smooth"

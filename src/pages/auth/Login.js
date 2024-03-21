@@ -5,10 +5,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaGoogle } from 'react-icons/fa'
 import Card from '../../components/card/Card'
 import { toast } from 'react-toastify';
-import { signInWithEmailAndPassword} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {auth} from "../../firebase/config"
 import Loader from '../../components/loader/Loader'
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useSelector } from 'react-redux'
 import { selectPreviousURL } from '../../redux/slice/cartSlice'
 
@@ -17,18 +16,9 @@ const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
-    const previousURL = useSelector(selectPreviousURL)
+    const previousURL = useSelector(selectPreviousURL) //cartSlice
 
     const navigate = useNavigate();
-
-    //cart & checkout functionalities
-    const redirectUser = () => {
-        if(previousURL.includes("cart")) {
-            return navigate("/cart")
-            //from cart page to login back to cart page
-        }
-        navigate("/") //else go to home page
-    }
 
     //Login with Email & Password
     const loginUser = (e) => {
@@ -44,7 +34,7 @@ const Login = () => {
             setIsLoading(false);
             toast.success("Login Successful");
             //navigate("/")
-            redirectUser()
+            redirectUser() //login, cart & checkout function
         })
         .catch((error) => {
             toast.error(error.message)
@@ -66,6 +56,15 @@ const Login = () => {
         }).catch((error) => {
             toast.error(error.message)
         });
+    }
+
+    //cart & checkout functionalities
+    const redirectUser = () => {
+        if(previousURL.includes("cart")) {
+            return navigate("/cart")
+            //from cart page to login back to cart page
+        }
+        navigate("/") //else go to home page
     }
 
     

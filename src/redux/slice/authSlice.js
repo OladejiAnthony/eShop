@@ -15,7 +15,7 @@ const authSlice = createSlice({
     SET_ACTIVE_USER: (state, action) => {
         //console.log(action.payload);
         const {email, userName, userID} = action.payload;
-        state.isLoggedIn = true;
+        state.isLoggedIn = true;  //initialState = new state;
         state.email = email;
         state.userName = userName;
         state.userID = userID;
