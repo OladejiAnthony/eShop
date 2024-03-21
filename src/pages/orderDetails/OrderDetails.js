@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import useFetchDocument from "../../customHooks/useFetchDocument";
 import spinnerImg from "../../assets/spinner.jpg";
 import styles from "./OrderDetails.module.scss";
+import DownloadPDFButton from "../../components/downloadBtn/DownloadPDFButton";
 const OrderDetails = () => {
   const [order, setOrder] = useState(null);
   const { id } = useParams();
@@ -14,7 +15,7 @@ const OrderDetails = () => {
 
   return (
     <section>
-      <div className={`container ${styles.table}`}>
+      <div id="contentToConvert" className={`container ${styles.table}`}>
         <h2>Order Details</h2>
         <div>
           <Link to="/order-history">&larr; Back To Orders</Link>
@@ -33,6 +34,7 @@ const OrderDetails = () => {
             <p>
               <b>Order Status</b> {order.orderStatus}
             </p>
+            <DownloadPDFButton name="eShop order-details.pdf" contentToConvert="contentToConvert" />
             <br />
             <table>
               <thead>
@@ -86,4 +88,3 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
-

@@ -9,10 +9,12 @@ import {
 } from "../../../redux/slice/orderSlice";
 import Loader from "../../loader/Loader";
 import styles from "./Orders.module.scss";
+import DownloadPDFButton from "../../downloadBtn/DownloadPDFButton";
 
 const Orders = () => {
   const { data, isLoading } = useFetchCollection("orders");
   const orders = useSelector(selectOrderHistory);
+  //console.log(orders.map((order) => order.orderDate))
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,13 +27,15 @@ const Orders = () => {
     navigate(`/admin/order-details/${id} `);
   };
 
+
   return (
     <>
-      <div className={styles.order}>
+      <div id="contentToConvert"  className={styles.order}>
         <h2>Your Order History</h2>
         <p>
           Open an order to <b>Change order status</b>
         </p>
+        <DownloadPDFButton name="order-history.pdf" contentToConvert="contentToConvert" />
         <br />
         <>
           {isLoading && <Loader />}
@@ -58,6 +62,7 @@ const Orders = () => {
                       orderAmount,
                       orderStatus,
                     } = order;
+                    //console.log(order)
                     return (
                       <tr key={id} onClick={() => handleClick(id)}>
                         <td>{index + 1}</td>

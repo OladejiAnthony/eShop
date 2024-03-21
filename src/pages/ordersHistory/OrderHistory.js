@@ -10,6 +10,7 @@ import styles from "./OrderHistory.module.scss";
 const OrderHistory = () => {
   const { data, isLoading } = useFetchCollection("orders");
   const orders = useSelector(selectOrderHistory);
+  //console.log(orders)
   const userID = useSelector(selectUserID);
 
   const dispatch = useDispatch();
@@ -22,8 +23,9 @@ const OrderHistory = () => {
   const handleClick = (id) => {
     navigate(`/order-details/${id}`);
   };
-
+  //filter through the order Id
   const filteredOrders = orders.filter((order) => order.userID === userID);
+
 
   return (
     <section>
@@ -59,6 +61,7 @@ const OrderHistory = () => {
                       orderStatus,
                     } = order;
                     return (
+                      <>
                       <tr key={id} onClick={() => handleClick(id)}>
                         <td>{index + 1}</td>
                         <td>
@@ -81,6 +84,7 @@ const OrderHistory = () => {
                           </p>
                         </td>
                       </tr>
+                      </>
                     );
                   })}
                 </tbody>

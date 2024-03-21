@@ -4,6 +4,7 @@ import styles from "./OrderDetails.module.scss";
 import spinnerImg from "../../../assets/spinner.jpg";
 import { Link, useParams } from "react-router-dom";
 import ChangeOrderStatus from "../changeOrderStatus/ChangeOrderStatus";
+import DownloadPDFButton from "../../downloadBtn/DownloadPDFButton";
 
 const OrderDetails = () => {
   const [order, setOrder] = useState(null);
@@ -18,7 +19,7 @@ const OrderDetails = () => {
 
   return (
     <>
-      <div className={styles.table}>
+      <div id="contentToConvert" className={styles.table}>
         <h2>Order Details</h2>
         <div>
           <Link to="/admin/orders">&larr; Back To Orders</Link>
@@ -49,6 +50,7 @@ const OrderDetails = () => {
               <br />
               Country: {order.shippingAddress.country}
             </p>
+            <DownloadPDFButton name="order-details.pdf" contentToConvert="contentToConvert" />
             <br />
             {/*Product details*/}
             <table>
@@ -64,6 +66,7 @@ const OrderDetails = () => {
               <tbody>
                 {order.cartItems.map((cart, index) => {
                   const { id, name, price, imageURL, cartQuantity } = cart;
+                  //console.log(cart)
                   return (
                     <tr key={id}>
                       <td>

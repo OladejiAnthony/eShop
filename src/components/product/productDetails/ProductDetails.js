@@ -16,6 +16,7 @@ import useFetchDocument from "../../../customHooks/useFetchDocument";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
 import Card from "../../card/Card";
 import StarsRating from "react-star-rate";
+import { Helmet } from "react-helmet";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -87,6 +88,21 @@ const ProductDetails = () => {
           <img src={spinnerImg} alt="Loading" style={{ width: "50px" }} />
         ) : (
           <>
+            {/*SEO */}
+            <Helmet>
+              <title>{product.name} - eShop Ecommerce Website</title>
+              <meta name="description" content={product.desc} />
+              <meta property="og:title" content={product.name} />
+              <meta property="og:description" content={product.desc} />
+              <meta property="og:image" content={product.imageURL} />
+              <meta property="og:url" content={window.location.href} />
+              <meta property="og:type" content="product.item" />
+              <meta property="og:price:amount" content={product.price} />
+              <meta property="og:availability" content="instock" />
+              <meta property="og:brand" content={product.brand} />
+              <meta property="og:condition" content="new" />
+            </Helmet>
+            {/*Product Details */}
             <div className={styles.details}>
               <div className={styles.img}>
                 <img src={product.imageURL} alt={product.name} />
@@ -163,7 +179,6 @@ const ProductDetails = () => {
             )}
           </div>
         </Card>
-
       </div>
     </section>
   );
