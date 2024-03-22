@@ -13,11 +13,11 @@ import spinnerImg from "../../assets/spinner.jpg";
 import { FaCogs } from "react-icons/fa";
 
 const Product = () => {
-  const { data, isLoading } = useFetchCollection("products");
+  const { data, isLoading } = useFetchCollection("products"); //reading products data from db
   const [showFilter, setShowFilter] = useState(false);
-  const products = useSelector(selectProducts);
   const dispatch = useDispatch();
 
+  //store the products data coming from db to redux
   useEffect(() => {
     dispatch(
       STORE_PRODUCTS({
@@ -31,6 +31,9 @@ const Product = () => {
       })
     );
   }, [dispatch, data]);
+
+  //read products state from redux and display on the screen
+  const products = useSelector(selectProducts); 
 
   const toggleFilter = () => {
     setShowFilter(!showFilter);

@@ -13,12 +13,13 @@ const filterSlice = createSlice({
       const { products, search } = action.payload;
       const tempProducts = products.filter(
         (product) =>
+        //filter through all products in the productSlice 
           product.name.toLowerCase().includes(search.toLowerCase()) ||
           product.category.toLowerCase().includes(search.toLowerCase())
         //we are searching for both products name and products category
       );
-
-      state.filteredProducts = tempProducts;
+      //console.log(tempProducts)
+      state.filteredProducts = tempProducts; //temporary products
     },
 
     SORT_PRODUCTS(state, action) {
@@ -27,13 +28,15 @@ const filterSlice = createSlice({
       let tempProducts = [];
 
       if (sort === "latest") {
-        tempProducts = products;
+        tempProducts = products; //tempProducts shows all the products in our productSlice
+        //console.log(tempProducts)
       }
       if (sort === "lowest-price") {
         tempProducts = products.slice().sort((a, b) => {
           //React Strict mode issue rectified
           return a.price - b.price;
         });
+        //console.log(tempProducts)
       }
       if (sort === "highest-price") {
         tempProducts = products.slice().sort((a, b) => {
@@ -84,12 +87,14 @@ const filterSlice = createSlice({
       const { products, price } = action.payload;
       let tempProducts = [];
       tempProducts = products.filter((product) => product.price <= price);
+      //console.log(tempProducts)
 
       state.filteredProducts = tempProducts;
     },
   },
 });
 
+//actions
 export const {
   FILTER_BY_SEARCH,
   SORT_PRODUCTS,
@@ -98,6 +103,10 @@ export const {
   FILTER_BY_PRICE,
 } = filterSlice.actions;
 
+//state
 export const selectFilteredProducts = (state) => state.filter.filteredProducts;
-
+//reducer
 export default filterSlice.reducer;
+
+
+

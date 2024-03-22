@@ -34,7 +34,7 @@ const initialState = {
 const AddProduct = () => {
   //-Edit Product code-
   const { id } = useParams(); //console.log(id)
-  const products = useSelector(selectProducts); //console.log(products);
+  const products = useSelector(selectProducts); //from redux console.log(products);
   const productEdit = products.find((item) => item.id === id);
   //console.log(productEdit)
 
@@ -44,6 +44,7 @@ const AddProduct = () => {
     const newState = detectForm(id, { ...initialState }, productEdit);
     return newState;
   });
+  //console.log(product) //displays the products initial states
 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,12 +84,13 @@ const AddProduct = () => {
 
   const addProduct = (e) => {
     e.preventDefault();
-    console.log(product);
+    //console.log(product);
     setIsLoading(true);
 
     try {
       // Add a new document with a generated id.
       const docRef = addDoc(collection(db, "products"), {
+        //pass this parameters to db
         name: product.name,
         imageURL: product.imageURL,
         price: Number(product.price),

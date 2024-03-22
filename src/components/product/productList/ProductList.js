@@ -13,10 +13,12 @@ import {
 import Pagination from "../../pagination/Pagination";
 
 const ProductList = ({ products }) => {
+  //console.log(products);
   const [grid, setGrid] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
-  const filteredProducts = useSelector(selectFilteredProducts);
+  const filteredProducts = useSelector(selectFilteredProducts); //read all the products data from redux filteredProducts state
+  //console.log(filteredProducts);
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +27,7 @@ const ProductList = ({ products }) => {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
+    //performs slice operation on the filtered products data
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -33,10 +36,12 @@ const ProductList = ({ products }) => {
 
   useEffect(() => {
     dispatch(SORT_PRODUCTS({ products, sort }));
+    //dispatch the sort state & products data from productSlice into the redux filterSlice component
   }, [dispatch, products, sort]);
 
   useEffect(() => {
     dispatch(FILTER_BY_SEARCH({ products, search }));
+    //dispatch the search state & products data from productSlice into the redux filterSlice component
   }, [dispatch, products, search]);
 
   return (
@@ -48,14 +53,16 @@ const ProductList = ({ products }) => {
             color="orangered"
             onClick={() => setGrid(true)}
           />
-
-          <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)} />
-
+          <FaListAlt 
+            size={24} 
+            color="#0066d4" 
+            onClick={() => setGrid(false)} 
+          />
           <p>
             <b>{filteredProducts.length}</b> Products found.
           </p>
         </div>
-        {/* Search Icon */}
+        {/* Search Products */}
         <div>
           <Search value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
@@ -78,6 +85,7 @@ const ProductList = ({ products }) => {
         ) : (
           <>
             {currentProducts.map((product) => {
+              //console.log(product)
               return (
                 <div key={product.id}>
                   <ProductItem {...product} grid={grid} product={product} />

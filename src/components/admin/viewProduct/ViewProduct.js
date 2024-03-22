@@ -57,14 +57,12 @@ const ViewProduct = () => {
   //   getProducts();
   // }, []);
 
-  const {data, isLoading} = useFetchCollection("products"); //The collectionName prop value is "products"
+  const {data, isLoading} = useFetchCollection("products"); 
+  //Reading products data from db
   const [search, setSearch] = useState("");
-  
 
   const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
-  const filteredProducts = useSelector(selectFilteredProducts);
-
+  //store the products data coming from db to redux
   useEffect(() => {
     dispatch(
       STORE_PRODUCTS({
@@ -72,10 +70,17 @@ const ViewProduct = () => {
       })
     );
   },[dispatch, data]) //dispatch products when data changes
+  
+  //read products data from redux
+  const products = useSelector(selectProducts);
+  const filteredProducts = useSelector(selectFilteredProducts);  //read the same products data from redux and display on the screen. Remember the filteredProducts contain temporary products
+  //console.log(filteredProducts)
+  //Note - we are reading all our products data displayed on this page from the redux filteredProducts state.
 
 
   //delete Dialog Box
   const confirmDelete = (id, imageURL) => {
+    //modal open
     Notiflix.Confirm.show(
       "Delete Product!!!",
       "You are about to delete this product",
@@ -148,7 +153,8 @@ const ViewProduct = () => {
           </p>
           <Search value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        {/*before search functions, we were filtering originally through the "products" state from redux */}
+        {/*Note - before implementing the search filter function, we were filtering originally through the "products" state from redux */}
+
         {filteredProducts.length === 0 ? (
           <p>No Products found.</p>
         ) : (
@@ -165,7 +171,7 @@ const ViewProduct = () => {
             </thead>
             <tbody>
               {currentProducts.map((product, index) => {
-                const { id, name, price, imageURL, category } = product;
+                const { id, name, price, imageURL, category } = product; //filteredProducts properties
                 return (
                   <tr key={id}>
                     <td>{index + 1}</td>
@@ -210,3 +216,6 @@ const ViewProduct = () => {
 };
 
 export default ViewProduct;
+
+
+

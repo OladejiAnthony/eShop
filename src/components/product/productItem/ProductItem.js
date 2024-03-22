@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { ADD_TO_CART, CALCULATE_CART_TOTAL_QUANTITY } from "../../../redux/slice/cartSlice";
 
 const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
+  //all products properties passed into this component using spread operator
   const dispatch = useDispatch();
   
   //function to shorten texts
@@ -17,6 +18,7 @@ const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
     return text;
   }
 
+  //add product to cart
   const addToCart = (product) => {
     dispatch(ADD_TO_CART(
       product
@@ -39,7 +41,7 @@ const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
           <h4>{shortenText(name, 18)}</h4>
         </div>
 
-        {/*show description only in grid */}
+        {/*show description only in list view */}
         {!grid && <p className={styles.desc}>{shortenText(desc, 200)}</p>}
 
         {/*Cart */}

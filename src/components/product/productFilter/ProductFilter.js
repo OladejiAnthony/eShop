@@ -12,18 +12,19 @@ import {
   selectProducts,
 } from "../../../redux/slice/productSlice";
 
+
 const ProductFilter = () => {
-  const products = useSelector(selectProducts);
+  const products = useSelector(selectProducts); //read products data from redux
   const minPrice = useSelector(selectMinPrice);
   const maxPrice = useSelector(selectMaxPrice);
   const dispatch = useDispatch();
 
   const allCategories = [
-    "All", //added ALL to the xisting categories
-    ...new Set(products.map((product) => product.category)),
+    "All", //added "ALL" property to the existing categories
+    ...new Set(products.map((product) => product.category)), //map through the products data from redux
   ]; //console.log(allCategories)
   const allBrands = [
-    "All", //added ALL to the xisting categories
+    "All", //added "ALL" to the existing categories
     ...new Set(products.map((product) => product.brand)),
   ]; //console.log(allBrands)
 
@@ -67,6 +68,7 @@ const ProductFilter = () => {
       })
     );
   }, [products, price, dispatch]);
+  
 
   return (
     <div className={styles.filter}>
@@ -118,6 +120,9 @@ const ProductFilter = () => {
       <button className="--btn --btn-danger" onClick={clearFilters}>
         Clear Filter
       </button>
+      <div>
+        
+      </div>
     </div>
   );
 };

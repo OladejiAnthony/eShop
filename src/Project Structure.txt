@@ -81,3 +81,5 @@ c. Stripe Test Card
   //Check payment history here - 
   https://dashboard.stripe.com/test/payments
 
+d. Flutterwave
+ npm install flutterwave-v3-react
