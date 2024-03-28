@@ -31,6 +31,9 @@ const Home = () => {
   const products = useSelector(selectProducts);
   const orders = useSelector(selectOrderHistory);
   const totalOrderAmount = useSelector(selectTotalOrderAmount);
+  const formattedTotalOrderAmount = Number(totalOrderAmount.toFixed(0)); //round up the number
+  //console.log(formattedTotalOrderAmount);
+  
   //read data from firebase db
   const fbProducts = useFetchCollection("products");
   const { data } = useFetchCollection("orders");
@@ -54,7 +57,7 @@ const Home = () => {
         <InfoBox
           cardClass={`${styles.card} ${styles.card1}`}
           title={"Earnings"}
-          count={`$${totalOrderAmount}`} 
+          count={`$${formattedTotalOrderAmount}`} 
           icon={earningIcon}
         />
         <InfoBox

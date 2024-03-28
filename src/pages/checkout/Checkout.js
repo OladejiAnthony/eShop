@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Checkout.scss";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,15 +8,23 @@ import {
   CALCULATE_CART_TOTAL_QUANTITY,
   selectCartItems,
   selectCartTotalAmount,
+  CLEAR_CART,
 } from "../../redux/slice/cartSlice";
-import { selectEmail, selectUserName } from "../../redux/slice/authSlice";
+import {
+  selectEmail,
+  selectUserID,
+  selectUserName,
+} from "../../redux/slice/authSlice";
 import {
   selectBillingAddress,
   selectShippingAddress,
 } from "../../redux/slice/checkoutSlice";
 import { toast } from "react-toastify";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
-import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
 
 //use dotenv variable on frontend
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
@@ -24,14 +33,21 @@ const Checkout = () => {
   const [message, setMessage] = useState("Initializing checkout...");
   const [clientSecret, setClientSecret] = useState("");
 
+  const navigate = useNavigate();
+
   //redux
-  const userName = useSelector(selectUserName);
+  const userID = useSelector(selectUserID);
+  const userEmail = useSelector(selectEmail);
+  const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
+  //console.log(totalAmount)
   const customerEmail = useSelector(selectEmail);
 
   const shippingAddress = useSelector(selectShippingAddress);
   const billingAddress = useSelector(selectBillingAddress);
+  //console.log(billingAddress)
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,8 +55,12 @@ const Checkout = () => {
     dispatch(CALCULATE_CART_TOTAL_QUANTITY());
   }, [dispatch, cartItems]);
 
+  //stripe description
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
+  //console.log(description)
 
+
+  //stripe implementation
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads with backend url:
     //https://eshop-react-firebase.herokuapp.com/create-payment-intent
@@ -81,46 +101,55 @@ const Checkout = () => {
     appearance,
   };
 
+  
+
   //flutterwave
-  const config = {
-    public_key: process.env.YOUR_FLUTTERWAVE_PUBLIC_KEY,
+  const today = new Date();
+  const date = today.toDateString();
+  const time = today.toLocaleTimeString();
+  const flutterConfig = {
+    public_key: "FLWPUBK_TEST-6604afffe841f59e8c4b71ae98af54e4-X",
     tx_ref: Date.now(),
-    amount: 100,
-    currency: 'NGN',
-    payment_options: 'card,mobilemoney,ussd',
+    amount: totalAmount,
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
     customer: {
-      email: 'user@gmail.com',
-      phone_number: '070********',
-      name: 'john doe',
+      userID,
+      email: userEmail,
+      orderDate: date,
+      orderTime: time,
+      orderAmount: cartTotalAmount,
+      orderStatus: "Order Placed...",
+      cartItems,
+      shippingAddress,
+      createdAt: Timestamp.now().toDate(),
     },
-    // public_key: process.env.YOUR_FLUTTERWAVE_PUBLIC_KEY,
-    // tx_ref: Date.now(),
-    // amount: totalAmount,
-    // currency: "NGN",
-    // payment_options: "card,mobilemoney,ussd",
-    // customer: {
-    //   email: customerEmail,
-    //   name: userName,
-    //   items: cartItems,
-    //   shipping: shippingAddress,
-    //   billing: billingAddress,
-    //   description,
-    // },
     customizations: {
-      title: "My store",
+      title: "eShop",
       description: "Payment for items in cart",
       logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
     },
   };
-  const fwConfig = {
-    ...config,
-    text: "Pay with Flutterwave!",
-    callback: (response) => {
-      console.log(response);
-      closePaymentModal(); // this will close the modal programmatically
-    },
-    onClose: () => {},
-  };
+  const handleFlutterPayment = useFlutterwave(flutterConfig);
+
+  const saveOrder = () => {
+    try {
+      // Add a new document with a generated id to the orders collection.
+      addDoc(collection(db, "orders"), flutterConfig);
+      dispatch(CLEAR_CART()); //clear cart when order has beeen saved
+      toast.success("Order saved");
+      //navigate to checkout successs page
+      navigate("/checkout-success");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  //Fluterwave test card details:
+  //Card number - 4187427415564246
+  //CVV - 828
+  //Expiry - 09/32
+  //OTP - 123456
 
   return (
     <>
@@ -132,13 +161,28 @@ const Checkout = () => {
           <CheckoutForm />
         </Elements>
       )}
-       {/*Flutterwave */}
-       <div style={{width: "100%", marginLeft: "10%", margin: "50px"}}>
-        <h1>FlutterWave Payment:</h1>
-          <FlutterWaveButton {...fwConfig} />
+
+      {/*Flutterwave */}
+      <div className="container" style={{ width: "100%", display: "flex", marginTop: "50px" }}>
+        <h2>FlutterWave Payment:</h2>
+        <button
+          className="flutterwave"
+          onClick={() =>
+            handleFlutterPayment({
+              callback: (response) => {
+                console.log(response);
+                saveOrder()
+                closePaymentModal();
+              },
+              onClose: () => {},
+            })         
+          }
+        >
+          Pay
+        </button>
       </div>
 
-     
+      
     </>
   );
 };
