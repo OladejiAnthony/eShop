@@ -8,12 +8,12 @@ import {
   CALCULATE_CART_TOTAL_QUANTITY,
   selectCartItems,
   selectCartTotalAmount,
-  CLEAR_CART,
+  //CLEAR_CART,
 } from "../../redux/slice/cartSlice";
 import {
   selectEmail,
-  selectUserID,
-  selectUserName,
+  //selectUserID,
+  //selectUserName,
 } from "../../redux/slice/authSlice";
 import {
   selectBillingAddress,
@@ -21,31 +21,31 @@ import {
 } from "../../redux/slice/checkoutSlice";
 import { toast } from "react-toastify";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
-import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
-import { db } from "../../firebase/config";
-import { useNavigate } from "react-router-dom";
-import { CALC_TOTAL_ORDER_AMOUNT, STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
+// import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+// import { addDoc, collection, Timestamp } from "firebase/firestore";
+// import { db } from "../../firebase/config";
+ import { useNavigate } from "react-router-dom";
+// import { CALC_TOTAL_ORDER_AMOUNT, STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
 
  //use dotenv variable on frontend
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
-  const [message, setMessage] = useState("Initializing checkout...");
+  const [message, setMessage] = useState("Initializing checkout...")
   const [clientSecret, setClientSecret] = useState("");
 
   const navigate = useNavigate();
 
   //redux
-  const userID = useSelector(selectUserID);
-  const userEmail = useSelector(selectEmail);
-  const cartTotalAmount = useSelector(selectCartTotalAmount);
+  // const userID = useSelector(selectUserID);
+  // const userEmail = useSelector(selectEmail);
+  // const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const customerEmail = useSelector(selectEmail);
   const shippingAddress = useSelector(selectShippingAddress);
   const billingAddress = useSelector(selectBillingAddress);
-  const orderHistory = useSelector(selectOrderHistory)
+  //const orderHistory = useSelector(selectOrderHistory)
   //console.log(billingAddress)
 
   const dispatch = useDispatch();

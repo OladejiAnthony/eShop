@@ -120,6 +120,8 @@ const CheckoutForm = () => {
     setIsLoading(false);
   };
 
+
+  
   return (
     <section>
       <div className={`container ${styles.checkout}`}>
