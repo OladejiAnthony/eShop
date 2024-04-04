@@ -40,7 +40,7 @@ const ViewProduct = () => {
   //       //console.log(allProducts);
   //       setProducts(allProducts);
   //       setIsLoading(false);
-  //       //dispatch your products to redux store
+  //       //dispatch your allProducts fetched from db to redux store
   //       dispatch(
   //         STORE_PRODUCTS({
   //           products: allProducts,
@@ -57,8 +57,8 @@ const ViewProduct = () => {
   //   getProducts();
   // }, []);
 
-  const {data, isLoading} = useFetchCollection("products"); 
-  //Reading products data from db
+  const {data, isLoading} = useFetchCollection("products");  //Reading products data from db
+  //console.log(data);
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();

@@ -25,8 +25,9 @@ import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { useNavigate } from "react-router-dom";
+import { CALC_TOTAL_ORDER_AMOUNT, STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
 
-//use dotenv variable on frontend
+ //use dotenv variable on frontend
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
@@ -41,13 +42,11 @@ const Checkout = () => {
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
-  //console.log(totalAmount)
   const customerEmail = useSelector(selectEmail);
-
   const shippingAddress = useSelector(selectShippingAddress);
   const billingAddress = useSelector(selectBillingAddress);
+  const orderHistory = useSelector(selectOrderHistory)
   //console.log(billingAddress)
-
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -57,8 +56,7 @@ const Checkout = () => {
 
   //stripe description
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
-  //console.log(description)
-
+  console.log(description)
 
   //stripe implementation
   useEffect(() => {
@@ -66,11 +64,9 @@ const Checkout = () => {
     //https://eshop-react-firebase.herokuapp.com/create-payment-intent
     // http://localhost:4242/create-payment-intent
     fetch("http://localhost:4242/create-payment-intent", {
-      //an intention to make a payment from backend, fetch request to the backend server
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        //we are sending this requests to the backend server
         items: cartItems,
         userEmail: customerEmail,
         shipping: shippingAddress,
@@ -101,56 +97,57 @@ const Checkout = () => {
     appearance,
   };
 
-  
-
   //flutterwave
-  const today = new Date();
-  const date = today.toDateString();
-  const time = today.toLocaleTimeString();
-  const flutterConfig = {
-    public_key: "FLWPUBK_TEST-6604afffe841f59e8c4b71ae98af54e4-X",
-    tx_ref: Date.now(),
-    amount: totalAmount,
-    currency: "NGN",
-    payment_options: "card,mobilemoney,ussd",
-    customer: {
-      userID,
-      email: userEmail,
-      orderDate: date,
-      orderTime: time,
-      orderAmount: cartTotalAmount,
-      orderStatus: "Order Placed...",
-      cartItems,
-      shippingAddress,
-      createdAt: Timestamp.now().toDate(),
-    },
-    customizations: {
-      title: "eShop",
-      description: "Payment for items in cart",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
-  };
-  const handleFlutterPayment = useFlutterwave(flutterConfig);
+  // const today = new Date();
+  // const date = today.toDateString();
+  // const time = today.toLocaleTimeString();
+  // const flutterConfig = {
+  //   public_key: "FLWPUBK_TEST-6604afffe841f59e8c4b71ae98af54e4-X",
+  //   tx_ref: Date.now(),
+  //   amount: totalAmount,
+  //   currency: "NGN",
+  //   payment_options: "card,mobilemoney,ussd",
+  //   customer: {
+  //     userID: userID,
+  //     email: userEmail,
+  //     orderDate: date,
+  //     orderTime: time,
+  //     orderAmount: cartTotalAmount,
+  //     orderStatus: "Order Placed...",
+  //     cartItems: cartItems,
+  //     shippingAddress: shippingAddress,
+  //     createdAt: Timestamp.now().toDate(),
+  //   },
+  //   customizations: {
+  //     title: "eShop",
+  //     description: "Payment for items in cart",
+  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+  //   },
+  // };
+  // const handleFlutterPayment = useFlutterwave(flutterConfig);
 
-  const saveOrder = () => {
-    try {
-      // Add a new document with a generated id to the orders collection.
-      addDoc(collection(db, "orders"), flutterConfig);
-      dispatch(CLEAR_CART()); //clear cart when order has beeen saved
-      toast.success("Order saved");
-      //navigate to checkout successs page
-      navigate("/checkout-success");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  }
+  // const saveOrder = () => {
+  //   try {
+  //     // Add a new document with a generated id to the orders collection.
+  //     addDoc(collection(db, "orders"), flutterConfig);
+  //     console.log(addDoc)
+  //     dispatch(CLEAR_CART()); //clear cart when order has beeen saved
+  //     dispatch(STORE_ORDERS(flutterConfig.customer)); // Store the order in the Redux store
+  //     dispatch(CALC_TOTAL_ORDER_AMOUNT([...orderHistory, flutterConfig.customer])); // Recalculate the total order amount
+  //     toast.success("Order saved");
+  //     //navigate to checkout successs page
+  //     navigate("/checkout-success");
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
-  //Fluterwave test card details:
-  //Card number - 4187427415564246
-  //CVV - 828
-  //Expiry - 09/32
-  //OTP - 123456
-
+  // Fluterwave test card details:
+  // Card number - 4187427415564246
+  // CVV - 828
+  // Expiry - 09/32
+  // OTP - 123456
+ 
   return (
     <>
       <section>
@@ -163,7 +160,10 @@ const Checkout = () => {
       )}
 
       {/*Flutterwave */}
-      <div className="container" style={{ width: "100%", display: "flex", marginTop: "50px" }}>
+      {/* <div
+        className="container"
+        style={{ width: "100%", display: "flex", marginTop: "50px" }}
+      >
         <h2>FlutterWave Payment:</h2>
         <button
           className="flutterwave"
@@ -171,17 +171,18 @@ const Checkout = () => {
             handleFlutterPayment({
               callback: (response) => {
                 console.log(response);
-                saveOrder()
+                if (response.status === "successful") {
+                  saveOrder();
+                }
                 closePaymentModal();
               },
               onClose: () => {},
-            })         
+            })
           }
         >
           Pay
         </button>
-      </div>
-
+      </div> */}
       
     </>
   );

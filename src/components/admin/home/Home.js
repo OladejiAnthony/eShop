@@ -31,8 +31,11 @@ const Home = () => {
   const products = useSelector(selectProducts);
   const orders = useSelector(selectOrderHistory);
   const totalOrderAmount = useSelector(selectTotalOrderAmount);
-  const formattedTotalOrderAmount = Number(totalOrderAmount.toFixed(0)); //round up the number
+  //const formattedTotalOrderAmount = Number(totalOrderAmount.toFixed(0)); //round up the number
   //console.log(formattedTotalOrderAmount);
+  // Check if totalOrderAmount is not null before using it
+  const formattedTotalOrderAmount = totalOrderAmount !== null ? Number(totalOrderAmount.toFixed(0)) : null;
+  console.log(formattedTotalOrderAmount);
   
   //read data from firebase db
   const fbProducts = useFetchCollection("products");

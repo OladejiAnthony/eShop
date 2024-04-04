@@ -20,6 +20,7 @@ import { selectIsLoggedIn } from "../../redux/slice/authSlice";
 
 const Cart = () => {
   const cartItems = useSelector(selectCartItems);
+  //console.log(cartItems)
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
   const isLoggedIn = useSelector(selectIsLoggedIn);

@@ -12,6 +12,7 @@ import {
 } from "../../../redux/slice/filterSlice";
 import Pagination from "../../pagination/Pagination";
 
+
 const ProductList = ({ products }) => {
   //console.log(products);
   const [grid, setGrid] = useState(true);
@@ -41,9 +42,10 @@ const ProductList = ({ products }) => {
 
   useEffect(() => {
     dispatch(FILTER_BY_SEARCH({ products, search }));
-    //dispatch the search state & products data from productSlice into the redux filterSlice component
+    //dispatch the products data from productSlice + the search state  into the redux filterSlice component
   }, [dispatch, products, search]);
 
+  
   return (
     <div className={styles["product-list"]} id="product">
       <div className={styles.top}>

@@ -11,7 +11,7 @@ const orderSlice = createSlice({
   reducers: {
     //store order into redux
     STORE_ORDERS(state, action) {
-      //console.log(action.payload)
+      console.log(action.payload)
       state.orderHistory = action.payload;
     },
     //calc order amount

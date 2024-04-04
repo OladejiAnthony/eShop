@@ -17,7 +17,7 @@ const filterSlice = createSlice({
           product.name.toLowerCase().includes(search.toLowerCase()) ||
           product.category.toLowerCase().includes(search.toLowerCase())
         //we are searching for both products name and products category
-      );
+      );//populate tempProducts array with products under name/category that u searched/queried for
       //console.log(tempProducts)
       state.filteredProducts = tempProducts; //temporary products
     },
@@ -62,11 +62,12 @@ const filterSlice = createSlice({
       const { products, category } = action.payload;
       let tempProducts = [];
       if (category === "All") {
-        tempProducts = products;
+        tempProducts = products; //populate tempProduct array with all the products data
       } else {
         tempProducts = products.filter(
           (product) => product.category === category
-        );
+        ); //populate tempProducts array with products under the category selected
+        //console.log(tempProducts)
       }
       state.filteredProducts = tempProducts;
     },
@@ -76,9 +77,11 @@ const filterSlice = createSlice({
       const { products, brand } = action.payload;
       let tempProducts = [];
       if (brand === "All") {
-        tempProducts = products;
+        tempProducts = products; //populate tempProduct array with all the products data
       } else {
         tempProducts = products.filter((product) => product.brand === brand);
+        //populate tempProducts array with products under the brand selected
+        //console.log(tempProducts)
       }
       state.filteredProducts = tempProducts;
     },

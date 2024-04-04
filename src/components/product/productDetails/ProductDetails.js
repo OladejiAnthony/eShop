@@ -28,8 +28,9 @@ const ProductDetails = () => {
   const cartItems = useSelector(selectCartItems);
 
   //reviews
-  const { document } = useFetchDocument("products", id);
-  const { data } = useFetchCollection("reviews");
+  const { document } = useFetchDocument("products", id); //fetch products
+  //console.log(document)
+  const { data } = useFetchCollection("reviews"); //fetch reviews
   //console.log(data);
   const filteredReviews = data.filter((review) => review.productID === id); //filter specific product review using its id property
 
@@ -102,6 +103,7 @@ const ProductDetails = () => {
               <meta property="og:brand" content={product.brand} />
               <meta property="og:condition" content="new" />
             </Helmet>
+            
             {/*Product Details */}
             <div className={styles.details}>
               <div className={styles.img}>
@@ -185,3 +187,5 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+

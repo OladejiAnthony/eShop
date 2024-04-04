@@ -22,9 +22,12 @@ const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
   const addToCart = (product) => {
     dispatch(ADD_TO_CART(
       product
-    ))
+    )) //dispatch product data to cart
     dispatch(CALCULATE_CART_TOTAL_QUANTITY()); //display cart
   }
+  //Note - the addToCart function is performing two functions:
+  //1. to add product to cart in Redux, 
+  //2. to calculate cartQuantity in Redux
 
   
 
@@ -52,3 +55,4 @@ const ProductItem = ({ grid, product, id, name, price, desc, imageURL }) => {
 };
 
 export default ProductItem;
+

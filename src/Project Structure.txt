@@ -32,7 +32,7 @@ Design/Layout for eShop Ecommerce App
 4. Admin Route
 5. Admin Dashboard implementation
 6. Products implementation & Crud & data Fetching
-7. Search filter and sorting implementation
+7. Search filter and sorting implementation  
 8. Product Details implementation - useParams hook
 9. Pagination
 10. Cart implementation

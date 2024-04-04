@@ -49,6 +49,7 @@ const Product = () => {
         >
           {isLoading ? null : <ProductFilter />}
         </aside>
+        
         <div className={styles.content}>
           {isLoading ? (
             <img

@@ -15,6 +15,7 @@ import {
 
 const ProductFilter = () => {
   const products = useSelector(selectProducts); //read products data from redux
+  //console.log(products)
   const minPrice = useSelector(selectMinPrice);
   const maxPrice = useSelector(selectMaxPrice);
   const dispatch = useDispatch();
@@ -28,13 +29,14 @@ const ProductFilter = () => {
     ...new Set(products.map((product) => product.brand)),
   ]; //console.log(allBrands)
 
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState("All"); //initial state set to "All"
   const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState(4000);
 
   //Category Filter logic
   const filterProducts = (cat) => {
     setCategory(cat);
+    //dispatch all the products data + the single category you choose in jsx 
     dispatch(
       FILTER_BY_CATEGORY({
         products,
@@ -45,6 +47,7 @@ const ProductFilter = () => {
 
   //Brand Filter logic
   useEffect(() => {
+    //dispatch all the products data + the single brand you choose in jsx 
     dispatch(
       FILTER_BY_BRAND({
         products,
@@ -61,6 +64,7 @@ const ProductFilter = () => {
 
   //Price Filter logic
   useEffect(() => {
+    //dispatch all the products data + the single price you choose in jsx 
     dispatch(
       FILTER_BY_PRICE({
         products,
@@ -128,3 +132,17 @@ const ProductFilter = () => {
 };
 
 export default ProductFilter;
+
+
+
+//JS Set Object:
+//The Set object in JavaScript represents a collection of unique values, meaning that each value 
+//can only occur once within a Set. The Set object provides methods for adding, removing, and 
+//checking for the existence of elements efficiently.
+//The Set constructor allows you to create a new Set object with an optional iterable parameter, 
+//such as an array. When you use the spread operator (...) with the new Set() constructor, 
+//it allows you to create a Set object by passing an array (or any iterable) and spreading its 
+//elements into the Set. 
+//This operation automatically eliminates duplicate elements, ensuring that 
+//only unique values are stored in the Set.
+
