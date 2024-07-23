@@ -3,11 +3,16 @@
     color: #fff;
     font-size: 1.6rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 8rem;
     p {
       color: #fff;
+    }
+    .tdwonder {
+      color: var(--color-danger);
+      font-size: 1.8rem;
     }
   }
 

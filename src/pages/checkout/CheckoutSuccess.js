@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom";
+import styles from "./CheckoutSuccess.module.scss";
 
 const CheckoutSuccess = () => {
   return (
-    <section>
-      <div className="container">
-        <h2>Checkout Successful</h2>
-        <p>Thank you for your purchase</p>
-        <br />
+    <div className={styles.checkoutSuccess}>
+      <h2>Checkout Successful</h2>
+      <p>Thank you for your purchase</p>
+      <br />
 
-        <button className="--btn --btn-danger">
-          <Link to="/order-history">View Order Status</Link>
-        </button>
-      </div>
-    </section>
+      <button className="--btn --btn-danger">
+        <Link to="/order-history">View Order Status</Link>
+      </button>
+    </div>
   );
 };
 
 export default CheckoutSuccess;
-

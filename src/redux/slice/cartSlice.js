@@ -22,14 +22,15 @@ const cartSlice = createSlice({
       const productIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
-      console.log(productIndex)
+      //console.log(productIndex)
       if (productIndex >= 0) {
         //item already exist in the cart
         //increase the cartQuantity
         state.cartItems[productIndex].cartQuantity += 1;
-        toast.info(`${action.payload.name} increased by one`, {
-          position: "top-left",
-        });
+
+        // toast.info(`${action.payload.name} increased by one`, {
+        //   position: "top-left",
+        // });
       } else {
         //item doest exist in the cart
         //add item to the cart
@@ -51,18 +52,18 @@ const cartSlice = createSlice({
 
       if (state.cartItems[productIndex].cartQuantity > 1) {
         state.cartItems[productIndex].cartQuantity -= 1; //if product exist in the cartItem and is greater than 1, reduce quantity
-        toast.info(`${action.payload.name} decreased by one`, {
-          position: "top-left",
-        });
+        // toast.info(`${action.payload.name} decreased by one`, {
+        //   position: "top-left",
+        // });
       } else if (state.cartItems[productIndex].cartQuantity === 1) {
         //if we have exactly 1 item of the product in the cart, delete the product from the cart
         const newCartItem = state.cartItems.filter(
           (item) => item.id !== action.payload.id
         );
         state.cartItems = newCartItem;
-        toast.success(`${action.payload.name} removed from cart`, {
-          position: "top-left",
-        });
+        // toast.success(`${action.payload.name} removed from cart`, {
+        //   position: "top-left",
+        // });
       }
       //update in local-storage
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
@@ -86,9 +87,9 @@ const cartSlice = createSlice({
     CLEAR_CART(state, action) {
       //console.log(action.payload);
       state.cartItems = []; //set cart to empty array
-      toast.info(`Cart cleared`, {
-        position: "top-left",
-      });
+      // toast.info(`Cart cleared`, {
+      //   position: "top-left",
+      // });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },

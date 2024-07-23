@@ -13,6 +13,7 @@ import {
 } from "../../../redux/slice/productSlice";
 
 
+
 const ProductFilter = () => {
   const products = useSelector(selectProducts); //read products data from redux
   //console.log(products)

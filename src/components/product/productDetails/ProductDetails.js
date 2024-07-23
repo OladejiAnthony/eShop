@@ -22,6 +22,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   //console.log(id);
   const [product, setProduct] = useState(null);
+  //console.log(product)
   const dispatch = useDispatch();
 
   //read data from redux cartSlice

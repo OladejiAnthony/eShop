@@ -58,6 +58,7 @@ const Checkout = () => {
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
   console.log(description)
 
+  
   //stripe implementation
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads with backend url:
@@ -148,6 +149,8 @@ const Checkout = () => {
   // Expiry - 09/32
   // OTP - 123456
  
+  
+
   return (
     <>
       <section>

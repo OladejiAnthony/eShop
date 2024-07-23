@@ -43,6 +43,12 @@
       display: flex;
       justify-content: space-between;
       align-items: start;
+
+      button {
+        @media screen and (max-width: 320px) {
+          margin-top: 20px;
+        }
+      }
   
       .card {
         padding: 1rem;
@@ -52,11 +58,24 @@
           align-items: center;
           h3 {
             color: var(--color-danger);
+
+            @media screen and (max-width: 375px) {
+              font-size: 1.5rem;
+            }
+          }
+        }
+        p {
+          @media screen and (max-width: 375px) {
+            font-size: 0.85rem;
           }
         }
         button {
           margin-top: 5px;
         }
+      }
+
+      @media screen and (max-width: 375px) {
+       
       }
     }
   }

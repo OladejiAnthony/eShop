@@ -34,11 +34,13 @@ const Product = () => {
 
   //read products state from redux and display on the screen
   const products = useSelector(selectProducts); 
+  //console.log(products);
 
   const toggleFilter = () => {
     setShowFilter(!showFilter);
   };
 
+  
   return (
     <section>
       <div className={`container ${styles.product}`}>
