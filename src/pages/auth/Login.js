@@ -111,7 +111,7 @@ const Login = () => {
                         <p>-- or --</p>
                     </form>
                     {/*Google Sign In*/}
-                    <button className='--btn --btn-danger --btn-block' onClick={signInWithGoogle}>
+                    <button className={styles.loginBtn} onClick={signInWithGoogle}>
                         <FaGoogle color='#fff'  />
                         Login With Google
                     </button>
