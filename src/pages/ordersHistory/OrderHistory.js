@@ -10,12 +10,12 @@ import styles from "./OrderHistory.module.scss";
 const OrderHistory = () => {
   //fetch orders from db
   const { data, isLoading } = useFetchCollection("orders");
-  console.log(data)
+  console.log({data})
   //fetch orderHistory and userID from redux
   const orders = useSelector(selectOrderHistory);
-  console.log(orders)
+  console.log({orders})
   const userID = useSelector(selectUserID);
-  console.log(userID)
+  console.log({userID})
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const OrderHistory = () => {
 
   //filter through the order Id from redux
   const filteredOrders = orders.filter((order) => order.userID === userID);
-  console.log(filteredOrders)
+  console.log({filteredOrders})
 
 
   return (

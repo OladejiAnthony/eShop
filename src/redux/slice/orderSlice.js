@@ -12,7 +12,7 @@ const orderSlice = createSlice({
     //store order into redux
     STORE_ORDERS(state, action) {
       console.log(action.payload)
-      state.orderHistory = action.payload;
+      state.orderHistory = Array.isArray(action.payload) ? action.payload : [];
     },
     //calc order amount
     CALC_TOTAL_ORDER_AMOUNT(state, action) {
