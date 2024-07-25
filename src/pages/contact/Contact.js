@@ -72,7 +72,7 @@ const Contact = () => {
               <div className={styles.icons}>
                 <span>
                   <FaPhoneAlt />
-                  <p>+234 705 141 6545</p>
+                  <p>+234 813 745 9380</p>
                 </span>
                 <span>
                   <FaEnvelope />

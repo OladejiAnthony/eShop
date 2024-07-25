@@ -1,5 +1,5 @@
 import { doc, setDoc, Timestamp } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../../../firebase/config";
@@ -8,32 +8,60 @@ import Loader from "../../loader/Loader";
 import styles from "./ChangeOrderStatus.module.scss";
 
 const ChangeOrderStatus = ({ order, id }) => {
-  //order and id states are props coming from the orderDetails component
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const editOrder = (e, id) => {
+  useEffect(() => {
+    console.log("Order prop:", order);
+  }, [order]);
+
+  const editOrder = async (e, id) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Log each field to identify which one is missing
+    console.log("userID:", order.userID);
+    console.log("orderDate:", order.orderDate);
+    console.log("orderTime:", order.orderTime);
+    console.log("orderAmount:", order.orderAmount);
+    console.log("cartItems:", order.cartItems);
+    console.log("shippingAddress:", order.shippingAddress);
+    console.log("createdAt:", order.createdAt);
+
     //order properties from db
     const orderConfig = {
       userID: order.userID,
-      userEmail: order.userEmail,
       orderDate: order.orderDate,
       orderTime: order.orderTime,
       orderAmount: order.orderAmount,
-      orderStatus: status, //update order status to db
+      orderStatus: status,
       cartItems: order.cartItems,
       shippingAddress: order.shippingAddress,
       createdAt: order.createdAt,
-      editedAt: Timestamp.now().toDate(),
+      editedAt: Timestamp.now(),
     };
+
+    // Check for undefined fields
+    if (
+      !order.userID ||
+      !order.orderDate ||
+      !order.orderTime ||
+      !order.orderAmount ||
+      !order.cartItems ||
+      !order.shippingAddress ||
+      !order.createdAt
+    ) {
+      setIsLoading(false);
+      toast.error("Order details are incomplete. Please check the order information.");
+      return;
+    }
+
     try {
-      setDoc(doc(db, "orders", id), orderConfig);
+      await setDoc(doc(db, "orders", id), orderConfig);
 
       setIsLoading(false);
-      toast.success("Order status changes successfully");
+      toast.success("Order status changed successfully");
       navigate("/admin/orders");
     } catch (error) {
       setIsLoading(false);
@@ -76,5 +104,7 @@ const ChangeOrderStatus = ({ order, id }) => {
 };
 
 export default ChangeOrderStatus;
+
+
 
 
